@@ -1,0 +1,18 @@
+{
+  "name": "root_project",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "install:client": "cd ./client && yarn",
+    "install:server": "cd ./server && yarn",
+    "dev:client": "cd ./client && yarn start",
+    "dev:server": "cd ./server && yarn dev",
+    "dev:all": "concurrently \"yarn --cwd ./client run start\" \"yarn --cwd ./server run dev\"",
+    "client-test": "yarn --cwd ./client run test -- --coverage",
+    "client-build": "yarn --cwd ./client run build"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.1",
+    "nodemon": "^1.19.2"
+  }
+}
