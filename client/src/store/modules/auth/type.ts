@@ -1,0 +1,8 @@
+export const MODULE_NAME = 'AUTH_MODULE'
+
+export const actionTypes = {
+  LOGIN: `${MODULE_NAME}/LOGIN`,
+  LOGOUT: `${MODULE_NAME}/LOGOUT`,
+  IS_LOADING: `${MODULE_NAME}/IS_LOADING`,
+  ERROR: `${MODULE_NAME}/ERROR`,
+}
