@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es6",
+    "sourceMap": true,
+    "incremental": true,
+    "outDir": "./dist",
+    "baseUrl": "./src",
+    "paths": {},
+    "lib": ["dom", "es2018"],
+    "types": ["node"]
+  },
+  "include": ["src"],
+  "exclude": ["**/__tests__/**", "dist", "node_modules"]
+}

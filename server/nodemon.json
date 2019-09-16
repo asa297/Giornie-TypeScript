@@ -1,0 +1,16 @@
+{
+  "restartable": "rs",
+  "ignore": [".git", "src/**/*.spec.ts", "dist", "node_modules"],
+  "verbose": true,
+  "delay": "2500",
+  "execMap": {
+    "js": "node --harmony",
+    "ts": "node -r ts-node/register -r tsconfig-paths/register"
+  },
+  "watch": ["src"],
+  "env": {
+    "NODE_ENV": "development",
+    "TZ": "Asia/Bangkok"
+  },
+  "ext": "js,json,ts,tsx"
+}
