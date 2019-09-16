@@ -3821,10 +3821,10 @@ dotenv-expand@4.2.0:
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-4.2.0.tgz#def1f1ca5d6059d24a766e587942c21106ce1275"
   integrity sha1-3vHxyl1gWdJKdm5YeULCEQbOEnU=
 
-dotenv@6.2.0:
-  version "6.2.0"
-  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-6.2.0.tgz#941c0410535d942c8becf28d3f357dbd9d476064"
-  integrity sha512-HygQCKUBSFl8wKQZBSemMywRWcEDNidvNbjGVyZu3nbZ8qq9ubiPoGLMdRDpfSrpkkm9BXYFkpKxxFX38o/76w==
+dotenv@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.1.0.tgz#d811e178652bfb8a1e593c6dd704ec7e90d85ea2"
+  integrity sha512-GUE3gqcDCaMltj2++g6bRQ5rBJWtkWTmqmD0fo1RnnMuUqHNCt2oTPeDnS9n6fKYvlhn7AeBkb38lymBtWBQdA==
 
 duplexer@^0.1.1:
   version "0.1.1"
@@ -10154,6 +10154,11 @@ tslib@1.10.0, tslib@^1.8.0, tslib@^1.8.1, tslib@^1.9.0:
   version "1.10.0"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.10.0.tgz#c3c19f95973fb0a62973fb09d90d961ee43e5c8a"
   integrity sha512-qOebF53frne81cf0S9B41ByenJ3/IuH8yJKngAX35CmiZySA0khhkovshKK+jGCaMnVomla7gVlIcc3EvKPbTQ==
+
+tslint-import-group-ordering@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/tslint-import-group-ordering/-/tslint-import-group-ordering-2.1.2.tgz#1532f74f93b6b88f217382369c4c81a1a61387ca"
+  integrity sha512-o7+nN3mexZff1CG6OtUrQAchmEPBYct/WlOgg3+FT28OJKrhmEtng0kXU3JTcy0sYY6VRxkXuzXUbvMgcxbMHg==
 
 tslint@^5.20.0:
   version "5.20.0"

@@ -1,6 +1,7 @@
 import { put, takeLeading } from 'redux-saga/effects'
-import { actionTypes } from '@store/modules/auth/type'
 import { push } from 'react-router-redux'
+
+import { actionTypes } from './type'
 import { login, logout } from './action'
 
 function* loginTask(action: ReturnType<typeof login>) {

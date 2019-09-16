@@ -6,8 +6,8 @@ import { createBrowserHistory } from 'history'
 import { routerMiddleware, syncHistoryWithStore } from 'react-router-redux'
 import createReduxWaitForMiddleware from 'redux-wait-for-action'
 
-import { rootSaga } from '@store/modules/root-saga'
-import { rootReducer } from '@store/modules/root-reducer'
+import { rootSaga } from '@app/store/modules/root-saga'
+import { rootReducer } from '@app/store/modules/root-reducer'
 
 export const makeStore = () => {
   const browserHistory = createBrowserHistory()
@@ -33,5 +33,5 @@ export const makeStore = () => {
 
   sagaMiddleware.run(rootSaga)
 
-  return store
+  return { store, history }
 }

@@ -19,7 +19,7 @@
     "camelcase": "^5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.2.0",
     "css-loader": "2.1.1",
-    "dotenv": "6.2.0",
+    "dotenv": "^8.1.0",
     "dotenv-expand": "4.2.0",
     "eslint": "^6.1.0",
     "eslint-config-react-app": "^5.0.1",
@@ -160,7 +160,9 @@
           ],
           "alias": {
             "@app": "./src",
-            "@store": "./src/store"
+            "@app/store": "./src/store",
+            "@app/route": "./src/route",
+            "@app/page": "./src/page"
           }
         }
       ]
@@ -173,6 +175,7 @@
     "@types/redux-logger": "^3.0.7",
     "@types/redux-saga": "^0.10.5",
     "babel-plugin-module-resolver": "^3.2.0",
-    "tslint": "^5.20.0"
+    "tslint": "^5.20.0",
+    "tslint-import-group-ordering": "^2.1.2"
   }
 }

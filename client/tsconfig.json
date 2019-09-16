@@ -4,7 +4,9 @@
     "baseUrl": "./src",
     "paths": {
       "@app/*": ["./*"],
-      "@store/*": ["./store/*"]
+      "@app/store/*": ["./store/*"],
+      "@app/route/*": ["./route/*"],
+      "@app/page/*": ["./page/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
