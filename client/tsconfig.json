@@ -22,6 +22,6 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["./**/*.ts", "./**/*.tsx"],
-  "typescript.preferences.importModuleSpecifier": "non-relative"
+  "include": ["./**/*.ts", "./**/*.tsx", "src"],
+  "exclude": ["node_modules", "**/node_modules/*"]
 }

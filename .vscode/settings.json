@@ -13,8 +13,8 @@
   "prettier.trailingComma": "all",
   "prettier.semi": false,
   "prettier.printWidth": 130,
-  "prettier.tslintIntegration": true,
   "files.exclude": {
     "node_modules": true
-  }
+  },
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
