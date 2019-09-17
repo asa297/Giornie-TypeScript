@@ -22,7 +22,7 @@
         "matching-rules": [
           {
             "type": "project",
-            "matches": "^(config|modules|models|middleware)",
+            "matches": "^(config|modules|services|models|middleware)",
             "imports-group": "app"
           },
           {

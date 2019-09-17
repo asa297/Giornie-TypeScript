@@ -14,7 +14,8 @@
       "modules/*": ["./modules/*"],
       "config/*": ["./config/*"],
       "middleware/*": ["./middleware/*"],
-      "models/*": ["./models/*"]
+      "models/*": ["./models/*"],
+      "services/*": ["./services/*"]
     },
     "lib": ["dom", "es2018"],
     "types": ["node"]
