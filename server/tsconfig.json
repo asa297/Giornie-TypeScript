@@ -10,7 +10,10 @@
     "incremental": true,
     "outDir": "./dist",
     "baseUrl": "./src",
-    "paths": {},
+    "paths": {
+      "@modules/*": ["modules/*"],
+      "@config/*": ["config/*"]
+    },
     "lib": ["dom", "es2018"],
     "types": ["node"]
   },
