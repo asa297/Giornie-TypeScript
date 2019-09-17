@@ -11,10 +11,10 @@
     "outDir": "./dist",
     "baseUrl": "./src",
     "paths": {
-      "@server/modules/*": ["modules/*"],
-      "@server/config/*": ["config/*"],
-      "@server/middleware/*": ["middleware/*"],
-      "@server/models/*": ["models/*"]
+      "modules/*": ["./modules/*"],
+      "config/*": ["./config/*"],
+      "middleware/*": ["./middleware/*"],
+      "models/*": ["./models/*"]
     },
     "lib": ["dom", "es2018"],
     "types": ["node"]

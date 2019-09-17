@@ -13,7 +13,7 @@
             "name": "dependencies"
           },
           {
-            "name": "@server"
+            "name": "app"
           },
           {
             "name": "other"
@@ -22,8 +22,8 @@
         "matching-rules": [
           {
             "type": "project",
-            "matches": "^(@server|modules)",
-            "imports-group": "@server"
+            "matches": "^(config|modules|models|middleware)",
+            "imports-group": "app"
           },
           {
             "type": "project",

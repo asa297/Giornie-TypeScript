@@ -3,13 +3,13 @@ import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import * as http from 'http'
 
-// import { googleCredential } from '@server/config/google'
-import { serverInitialEnvironment } from '@server/config/server'
+// import { googleCredential } from 'config/google'
+import { serverInitialEnvironment } from 'config/server'
 
 // import * as admin from 'firebase-admin'
 // import * as mongoose from 'mongoose'
 require('dotenv').config()
-// import { databaseCredential } from '@server/config/database'
+// import { databaseCredential } from 'config/database'
 
 const app = express()
 const server = http.createServer(app)
@@ -41,8 +41,8 @@ app.use(bodyParser.json())
 //     process.exit()
 //   })
 
-require('@server/models/index')
-require('@server/modules/module')(app)
+require('models/index')
+require('modules/module')(app)
 
 server.listen(serverInitialEnvironment.PORT, () => {
   console.log(`> Ready on PORT ${serverInitialEnvironment.PORT}`)
