@@ -1,14 +1,20 @@
-import * as mongoose from 'mongoose'
-
-import * as admin from 'firebase-admin'
-import * as moment from 'moment'
+import * as HttpStatus from 'http-status-codes'
 
 import { UserModel } from 'models/user/user-model'
-import { AuthToken } from 'middleware/auth/auth-guard'
+import { AuthGuard } from 'middleware/auth/auth-guard'
 
 module.exports = app => {
-  const user = UserModel.findOne({}, (err, user) => {
-    console.log(user)
+  app.get('/api/user', AuthGuard, async (req, res) => {
+    try {
+      const user = await UserModel.findOne({}, (err, user) => {
+        return user.email === req.user
+      })
+
+      if (!user) throw new Error('User not found')
+
+      res.send(user)
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).send(error)
+    }
   })
-  console.log('test1')
 }

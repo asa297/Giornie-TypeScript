@@ -1,8 +1,9 @@
 import * as admin from 'firebase-admin'
+import * as HttpStatus from 'http-status-codes'
 
-export const AuthToken = (req, res, next) => {
+export const AuthGuard = (req, res, next) => {
   const authorizationReq = req.headers['authorization']
-  if (!authorizationReq) return res.status(401).send('Not Authorized')
+  if (!authorizationReq) return res.status(HttpStatus.UNAUTHORIZED).send('Not Authorized')
 
   const token = authorizationReq.replace('Bearer ', '')
   admin
@@ -13,6 +14,6 @@ export const AuthToken = (req, res, next) => {
       next()
     })
     .catch(error => {
-      res.status(401).send(error)
+      res.status(HttpStatus.UNAUTHORIZED).send(error)
     })
 }
