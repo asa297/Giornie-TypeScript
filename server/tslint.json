@@ -1,0 +1,42 @@
+{
+  "defaultSeverity": "error",
+  "extends": ["tslint-import-group-ordering"],
+  "jsRules": {},
+  "rules": {
+    "ordered-imports": false,
+    "object-literal-sort-keys": [false],
+    "import-group-ordering": {
+      "severity": "warning",
+      "options": {
+        "imports-groups": [
+          {
+            "name": "dependencies"
+          },
+          {
+            "name": "@server"
+          },
+          {
+            "name": "other"
+          }
+        ],
+        "matching-rules": [
+          {
+            "type": "project",
+            "matches": "^(@server|modules)",
+            "imports-group": "@server"
+          },
+          {
+            "type": "project",
+            "matches": "^([.].*)",
+            "imports-group": "other"
+          },
+          {
+            "type": "project",
+            "imports-group": "dependencies",
+            "matches": ".*"
+          }
+        ]
+      }
+    }
+  }
+}

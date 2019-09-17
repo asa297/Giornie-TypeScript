@@ -1,3 +1,3 @@
 module.exports = app => {
-  require('@modules/user/api')(app)
+  require('@server/modules/user/api')(app)
 }

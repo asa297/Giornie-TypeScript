@@ -9,4 +9,4 @@ export const googleCredential = {
   token_uri: process.env.gcloud_token_uri,
   auth_provider_x509_cert_url: process.env.gcloud_auth_provider_x509_cert_url,
   client_x509_cert_url: process.env.gcloud_client_x509_cert_url,
-}
+} as any
