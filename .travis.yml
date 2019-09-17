@@ -1,0 +1,52 @@
+language: node_js
+
+node_js:
+  - '10'
+cache:
+  yarn: true
+services:
+  - docker
+env:
+  global:
+    - REACT_APP_API_KEY = $REACT_APP_API_KEY
+    - REACT_APP_AUTH_DOMAIN = $REACT_APP_AUTH_DOMAIN
+    - REACT_APP_DATABASE_URL = $REACT_APP_DATABASE_URL
+    - REACT_APP_PROJECT_ID = $REACT_APP_PROJECT_ID
+    - REACT_APP_STORAGE_BUCKET = ""
+    - REACT_APP_MESSAGING_SENDER_ID = $REACT_APP_MESSAGING_SENDER_ID
+    - REACT_APP_CLOUD_FUNCTION_BASE_URL = $REACT_APP_CLOUD_FUNCTION_BASE_URL
+
+before_script:
+  - yarn install:client
+
+script:
+  - yarn client:test
+
+before_deploy:
+  - yarn client:build
+  - docker build -t asa297/giornie-server ./server
+    # Log in to the docker CLI
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    # Take those images and push them to docker hub
+  - docker push asa297/giornie-server
+deploy:
+  - provider: firebase
+    skip_cleanup: true
+    token:
+      secure: $FIREBASE_TOKEN
+    on:
+      branch:
+        - master
+  - provider: elasticbeanstalk
+    skip_cleanup: true
+    region: ap-southeast-1
+    app: giornie-server
+    env: GiornieServer-env
+    bucket_name: elasticbeanstalk-ap-southeast-1-253424059284
+    bucket_path: giornie-server
+    on:
+      branch:
+        - master
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key:
+      secure: $AWS_SECRET_KEY
