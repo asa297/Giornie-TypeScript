@@ -41,6 +41,7 @@ app.use(bodyParser.json())
 //     process.exit()
 //   })
 
+require('@server/models/index')
 require('@server/modules/module')(app)
 
 server.listen(serverInitialEnvironment.PORT, () => {

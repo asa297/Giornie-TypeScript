@@ -1,1 +1,1 @@
-export const au = 5
+require('@server/models/user/user-model')
