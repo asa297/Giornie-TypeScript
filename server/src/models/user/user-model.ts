@@ -1,21 +1,17 @@
 import { Document, model, Model, Schema } from 'mongoose'
 
 interface IUser extends Document {
-  username: string
-  age: number
-  friends: string[]
-  data: any[]
+  email: String
+  name: String
+  role: Number
+  role_description: String
 }
 
 const UserSchema: Schema = new Schema({
-  username: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  age: Number,
-  friends: [String],
-  data: [Schema.Types.Mixed],
+  email: String,
+  name: String,
+  role: Number,
+  role_description: String,
 })
 
 const UserModel: Model<IUser> = model<IUser>('User', UserSchema)
