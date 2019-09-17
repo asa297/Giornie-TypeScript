@@ -6,7 +6,8 @@
       "@app/*": ["./*"],
       "@app/store/*": ["./store/*"],
       "@app/route/*": ["./route/*"],
-      "@app/page/*": ["./page/*"]
+      "@app/page/*": ["./page/*"],
+      "@app/util/*": ["./util/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

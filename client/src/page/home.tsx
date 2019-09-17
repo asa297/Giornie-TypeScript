@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 
 import { login } from '@app/store/modules/auth/action'
 
-class HomePage extends React.Component<HomePageProps> {
+class HomePage extends React.Component<HomePageProps & DefaultTheme> {
   render() {
     const { loginFunction } = this.props
+    console.log(this.props)
     return (
       <div>
         test
@@ -14,6 +15,7 @@ class HomePage extends React.Component<HomePageProps> {
     )
   }
 }
+
 type HomePageProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
 const mapStateToProps = state => {

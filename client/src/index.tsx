@@ -2,10 +2,12 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Router } from 'react-router'
 import { Provider } from 'react-redux'
+import { ThemeProvider } from 'styled-components'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 
 import { makeStore } from '@app/store/index'
+import { createTheme, CustomTheme } from '@app/util/theme'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
@@ -22,12 +24,15 @@ const config = {
 firebase.initializeApp(config)
 
 const { store, history } = makeStore()
+const theme: CustomTheme = createTheme()
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router history={history}>
-      <App />
-    </Router>
+    <ThemeProvider theme={theme}>
+      <Router history={history}>
+        <App />
+      </Router>
+    </ThemeProvider>
   </Provider>,
   document.getElementById('root'),
 )
