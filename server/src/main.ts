@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 
 require('dotenv').config()
-require('./modules')(app)
+require('@modules/module')(app)
 
 server.listen(serverInitialEnvironment.PORT, () => {
   console.log(`> Ready on PORT ${serverInitialEnvironment.PORT}`)

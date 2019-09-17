@@ -12,7 +12,9 @@
     "baseUrl": "./src",
     "paths": {
       "@modules/*": ["modules/*"],
-      "@config/*": ["config/*"]
+      "@config/*": ["config/*"],
+      "@middleware/*": ["middleware/*"],
+      "@modles/*": ["modles/*"]
     },
     "lib": ["dom", "es2018"],
     "types": ["node"]
