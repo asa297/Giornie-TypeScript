@@ -25,11 +25,6 @@ firebase.initializeApp(config)
 
 const { store, history } = makeStore()
 
-type CustomeTheme = typeof theme
-declare module 'styled-components' {
-  interface DefaultTheme extends CustomeTheme {}
-}
-
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
