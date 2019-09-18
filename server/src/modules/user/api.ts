@@ -17,4 +17,12 @@ module.exports = app => {
       res.status(HttpStatus.BAD_REQUEST).send(error)
     }
   })
+
+  app.get('/api/test', async (req, res) => {
+    try {
+      res.send('user')
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).send(error)
+    }
+  })
 }
