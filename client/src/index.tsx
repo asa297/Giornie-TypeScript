@@ -7,7 +7,7 @@ import firebase from 'firebase/app'
 import 'firebase/auth'
 
 import { makeStore } from '@app/store/index'
-import { createTheme, CustomTheme } from '@app/util/theme'
+import { theme } from '@app/util/theme'
 
 import App from './App'
 import * as serviceWorker from './serviceWorker'
@@ -24,7 +24,11 @@ const config = {
 firebase.initializeApp(config)
 
 const { store, history } = makeStore()
-const theme: CustomTheme = createTheme()
+
+type CustomeTheme = typeof theme
+declare module 'styled-components' {
+  interface DefaultTheme extends CustomeTheme {}
+}
 
 ReactDOM.render(
   <Provider store={store}>

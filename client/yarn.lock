@@ -8581,7 +8581,7 @@ prompts@^2.0.1:
     kleur "^3.0.3"
     sisteransi "^1.0.3"
 
-prop-types@^15.5.4, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+prop-types@^15.5.4, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -8885,15 +8885,7 @@ react-router@5.0.1:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
 
-react-with-breakpoints@^3.1.3:
-  version "3.1.3"
-  resolved "https://registry.yarnpkg.com/react-with-breakpoints/-/react-with-breakpoints-3.1.3.tgz#48f7f1f31aaf9a192a7869ebb21086d34683714c"
-  integrity sha512-Xajki7Bw9gxhPzKo4HUJJDMxuQvRaypfWnAaUnWkpuqYdzHUj0+F6zpGk+lLouv8DcfzdODAsBfAMW3rV24VCA==
-  dependencies:
-    prop-types "^15.6.1"
-    react "^16.3.2"
-
-react@^16.3.2, react@^16.9.0:
+react@^16.9.0:
   version "16.9.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.9.0.tgz#40ba2f9af13bc1a38d75dbf2f4359a5185c4f7aa"
   integrity sha512-+7LQnFBwkiw+BobzOF6N//BdoNw0ouwmSJTEm9cglOOmsg/TMiFHZLe2sEoN5M7LgJTj9oHH0gxklfnQe66S1w==

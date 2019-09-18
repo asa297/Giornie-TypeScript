@@ -42,34 +42,30 @@ export const mdMax = lgMin - 1
 export const lgMax = xlMin - 1
 export const xlMax = xxlMin - 1
 
-export const createTheme = () => {
-  return {
-    breakpoints: {
-      xs: {
-        min: xsMin + 'px',
-        max: xsMax + 'px',
-      },
-      sm: {
-        max: smMax + 'px',
-        min: smMin + 'px',
-      },
-      md: {
-        max: mdMax + 'px',
-        min: mdMin + 'px',
-      },
-      lg: {
-        max: lgMax + 'px',
-        min: lgMin + 'px',
-      },
-      xl: {
-        max: xlMax + 'px',
-        min: xlMin + 'px',
-      },
-      xxl: {
-        min: xxlMin + 'px',
-      },
+export const theme = {
+  breakpoints: {
+    xs: {
+      min: xsMin + 'px',
+      max: xsMax + 'px',
     },
-  }
+    sm: {
+      max: smMax + 'px',
+      min: smMin + 'px',
+    },
+    md: {
+      max: mdMax + 'px',
+      min: mdMin + 'px',
+    },
+    lg: {
+      max: lgMax + 'px',
+      min: lgMin + 'px',
+    },
+    xl: {
+      max: xlMax + 'px',
+      min: xlMin + 'px',
+    },
+    xxl: {
+      min: xxlMin + 'px',
+    },
+  },
 }
-
-export type CustomTheme = ReturnType<typeof createTheme>
