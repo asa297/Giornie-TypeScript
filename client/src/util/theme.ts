@@ -70,7 +70,4 @@ export const theme = {
   },
 }
 
-type CustomeTheme = typeof theme
-declare module 'styled-components' {
-  interface DefaultTheme extends CustomeTheme {}
-}
+export type CustomeTheme = typeof theme
