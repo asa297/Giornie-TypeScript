@@ -44,26 +44,49 @@ export const xlMax = xxlMin - 1
 
 export const theme = {
   breakpoints: {
+    /**
+     * min : 480 px,
+     * max : 575 px (576 - 1)
+     */
     xs: {
       min: xsMin + 'px',
       max: xsMax + 'px',
     },
+    /**
+     * min : 576 px,
+     * max : 767 px (768 - 1)
+     */
     sm: {
-      max: smMax + 'px',
       min: smMin + 'px',
+      max: smMax + 'px',
     },
+    /**
+     * min : 768 px,
+     * max : 991 px (992 - 1)
+     */
     md: {
-      max: mdMax + 'px',
       min: mdMin + 'px',
+      max: mdMax + 'px',
     },
+    /**
+     * min : 992 px,
+     * max : 1199 px (1200 - 1)
+     */
     lg: {
-      max: lgMax + 'px',
       min: lgMin + 'px',
+      max: lgMax + 'px',
     },
+    /**
+     * min : 1200 px,
+     * max : 1599 px (1600 - 1)
+     */
     xl: {
-      max: xlMax + 'px',
       min: xlMin + 'px',
+      max: xlMax + 'px',
     },
+    /**
+     * min : 1600 px,
+     */
     xxl: {
       min: xxlMin + 'px',
     },
