@@ -9,6 +9,7 @@ import 'firebase/auth'
 import { makeStore } from '@app/store/index'
 import { theme } from '@app/util/theme'
 
+import './assets/antd-custom.less'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 

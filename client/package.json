@@ -11,6 +11,7 @@
     "@types/react-dom": "16.9.0",
     "@typescript-eslint/eslint-plugin": "1.13.0",
     "@typescript-eslint/parser": "1.13.0",
+    "antd": "^3.23.3",
     "axios": "^0.19.0",
     "babel-eslint": "10.0.2",
     "babel-jest": "^24.8.0",
@@ -43,6 +44,7 @@
     "jest-environment-jsdom-fourteen": "0.1.0",
     "jest-resolve": "24.8.0",
     "jest-watch-typeahead": "0.3.1",
+    "less-loader": "^5.0.0",
     "mini-css-extract-plugin": "0.5.0",
     "optimize-css-assets-webpack-plugin": "5.0.3",
     "pnp-webpack-plugin": "1.5.0",
@@ -168,9 +170,13 @@
             "@app/route": "./src/route",
             "@app/page": "./src/page",
             "@app/util": "./src/util",
-            "@app/helpers": "./src/helpers"
+            "@app/helpers": "./src/helpers",
+            "@app/assets": "./src/assets"
           }
         }
+      ],
+      [
+        "babel-plugin-styled-components"
       ]
     ]
   },
@@ -182,6 +188,7 @@
     "@types/redux-saga": "^0.10.5",
     "@types/styled-components": "^4.1.19",
     "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-styled-components": "^1.10.6",
     "tslint": "^5.20.0",
     "tslint-import-group-ordering": "^2.1.2"
   }
