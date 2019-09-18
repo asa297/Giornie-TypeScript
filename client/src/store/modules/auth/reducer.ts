@@ -7,7 +7,7 @@ export interface UserInfo {
   accessToken: string
 }
 
-export interface AuthState {
+export interface IAuthState {
   isLoading: boolean
   isAuthenticated: boolean
   isInitializing: boolean
@@ -19,7 +19,7 @@ export interface AuthState {
   user?: UserInfo
 }
 
-const initState: AuthState = {
+const initState: IAuthState = {
   isLoading: false,
   isAuthenticated: false,
   isInitializing: false,
