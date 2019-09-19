@@ -5,11 +5,11 @@ import { Provider } from 'react-redux'
 import { ThemeProvider } from 'styled-components'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import 'antd/dist/antd.css'
 
 import { makeStore } from '@app/store/index'
 import { theme } from '@app/util/theme'
 
-import './assets/antd-custom.less'
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 

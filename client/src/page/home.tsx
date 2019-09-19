@@ -1,4 +1,5 @@
 import React from 'react'
+import { Button } from 'antd'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 
@@ -10,6 +11,7 @@ class HomePage extends React.Component<HomePageProps> {
     return (
       <div>
         test
+        <Button type="primary">test</Button>
         <button onClick={() => loginFunction('makejack4@gmail.com', '026936804')}>login</button>
       </div>
     )
