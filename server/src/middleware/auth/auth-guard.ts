@@ -1,7 +1,15 @@
 import * as admin from 'firebase-admin'
 import * as HttpStatus from 'http-status-codes'
+import { Request, Response } from 'express'
 
-export const AuthGuard = (req, res, next) => {
+import { UserModel } from 'models/user/user-model'
+import { IUser } from 'models/user/user-model'
+
+export interface RequestWithUser extends Request {
+  user?: IUser
+}
+
+export const AuthGuard = (req: RequestWithUser, res, next) => {
   const authorizationReq = req.headers['authorization']
   if (!authorizationReq) return res.status(HttpStatus.UNAUTHORIZED).send('Not Authorized')
 
@@ -9,11 +17,13 @@ export const AuthGuard = (req, res, next) => {
   admin
     .auth()
     .verifyIdToken(token)
-    .then(user => {
+    .then(async (user: any) => {
+      user = await UserModel.find().then(model => model.find(value => value.email === 'makejack4@gmail.com'))
+      if (!user) throw new Error('User not found')
       req.user = user
       next()
     })
     .catch(error => {
-      res.status(HttpStatus.UNAUTHORIZED).send(error)
+      res.status(HttpStatus.UNAUTHORIZED).send(error.message)
     })
 }

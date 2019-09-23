@@ -171,7 +171,8 @@
             "@app/page": "./src/page",
             "@app/util": "./src/util",
             "@app/helpers": "./src/helpers",
-            "@app/assets": "./src/assets"
+            "@app/assets": "./src/assets",
+            "@app/components": "./src/components"
           }
         }
       ],
@@ -182,7 +183,9 @@
   },
   "devDependencies": {
     "@types/history": "^4.7.3",
+    "@types/ramda": "^0.26.22",
     "@types/react-redux": "^7.1.2",
+    "@types/react-router-dom": "^4.3.5",
     "@types/redux": "^3.6.0",
     "@types/redux-logger": "^3.0.7",
     "@types/redux-saga": "^0.10.5",

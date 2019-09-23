@@ -2,9 +2,16 @@ import { fromJS } from 'immutable'
 
 import { actionTypes } from '@app/store/modules/auth/type'
 
+export interface IUser {
+  _id: String
+  email: String
+  name: String
+  role: Number
+  role_description: String
+}
 export interface UserInfo {
-  userInfo: firebase.User
-  accessToken: string
+  userInfo?: IUser
+  accessToken?: string
 }
 
 export interface IAuthState {

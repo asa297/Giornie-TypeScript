@@ -1,28 +1,17 @@
+import { Request, Response } from 'express'
 import * as HttpStatus from 'http-status-codes'
+import { Schema } from 'mongoose'
 
 import { UserModel } from 'models/user/user-model'
-import { AuthGuard } from 'middleware/auth/auth-guard'
+import { AuthGuard, RequestWithUser } from 'middleware/auth/auth-guard'
 
 module.exports = app => {
-  app.get('/api/user', AuthGuard, async (req, res) => {
+  app.get('/api/userInfo', AuthGuard, async (req: RequestWithUser, res: Response) => {
     try {
-      const user = await UserModel.findOne({}, (err, user) => {
-        return user.email === req.user
-      })
-
-      if (!user) throw new Error('User not found')
-
+      const { user } = req
       res.send(user)
     } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST).send(error)
-    }
-  })
-
-  app.get('/api/test', async (req, res) => {
-    try {
-      res.send('user')
-    } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST).send(error)
+      res.status(HttpStatus.BAD_REQUEST).send(error.message)
     }
   })
 }

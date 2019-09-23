@@ -1,8 +1,10 @@
 import firebase from 'firebase/app'
 import 'firebase/auth'
-import { put, takeLeading, take } from 'redux-saga/effects'
+import { put, takeLeading, take, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { push } from 'react-router-redux'
+import axios from 'axios'
+import * as R from 'ramda'
 
 import { actionTypes } from '@app/store/modules/auth/type'
 import {
@@ -14,6 +16,7 @@ import {
   setAuthModuleError,
   setIsLoading,
 } from '@app/store/modules/auth/action'
+import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
 
 function* initialAuthTask(action: ReturnType<typeof initialAuth>) {
   const authChannel = eventChannel(emit => {
@@ -31,8 +34,15 @@ function* initialAuthTask(action: ReturnType<typeof initialAuth>) {
 
         const idToken = yield firebaseUser.getIdToken()
 
-        yield put(setUserInfo({ userInfo: firebaseUser, accessToken: idToken }))
+        yield put(setUserInfo({ userInfo: null, accessToken: idToken }))
+
+        const config = yield select(getAuthorizationHeader)
+
+        const { data } = yield axios.get(`${process.env.REACT_APP_SERVER_URL}/api/userInfo`, config)
+
+        yield put(setUserInfo({ userInfo: data, accessToken: idToken }))
       } else {
+        yield put(setUserInfo({ userInfo: null }))
       }
     } catch (error) {
       yield put(setAuthModuleError('initialAuth', error))

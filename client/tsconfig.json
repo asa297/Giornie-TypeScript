@@ -9,7 +9,8 @@
       "@app/page/*": ["./page/*"],
       "@app/util/*": ["./util/*"],
       "@app/helpers/*": ["./helpers/*"],
-      "@app/assets/*": ["./assets/*"]
+      "@app/assets/*": ["./assets/*"],
+      "@app/components/*": ["./components/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -25,6 +26,6 @@
     "noEmit": true,
     "jsx": "react"
   },
-  "include": ["./**/*.ts", "./**/*.tsx", "src"],
+  "include": ["./**/*.ts", "./**/*.tsx", "./**/*.d.ts"],
   "exclude": ["node_modules", "**/node_modules/*"]
 }
