@@ -39,7 +39,7 @@ export default (state = fromJS(initState), action) => {
       return state.mergeDeep({
         isAuthenticated: false,
         isInitializing: true,
-        userInfo: null,
+        user: null,
       })
     case actionTypes.SET_INITIAL_AUTH_STATUS:
       return state.mergeDeep({

@@ -3,6 +3,7 @@ import { Button } from 'antd'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Formik, Field } from 'formik'
+import { compose } from 'recompose'
 
 import { login } from '@app/store/modules/auth/action'
 import { MainLayout } from '@app/components/layout/main-layout'
@@ -10,6 +11,7 @@ import { LoginSchema } from '@app/helpers/validators/login-validator'
 import { TextInput } from '@app/components/input-field/text-input'
 import { LabelField } from '@app/components/label-field/label'
 import { getRootAuthState, getAuthIsLoading } from '@app/store/modules/auth/selector'
+import { withNoAuth } from '@app/components/hoc/withNoAuth'
 
 interface LoginFormProps {
   email: string
@@ -75,9 +77,12 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+  withNoAuth,
 )(HomePage)
 
 const SubmitContainer = styled.div`
