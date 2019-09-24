@@ -27,6 +27,7 @@ export interface IAuthState {
 }
 
 const initState: IAuthState = {
+  error: {},
   isLoading: false,
   isAuthenticated: false,
   isInitializing: false,

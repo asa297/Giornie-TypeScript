@@ -55,12 +55,12 @@ function* initialAuthTask(action: ReturnType<typeof initialAuth>) {
 function* loginTask(action: ReturnType<typeof login>) {
   try {
     yield put(setIsLoading(true))
-
+    yield put(setAuthModuleError('login'))
     const { email, password } = action.payload
     yield firebase.auth().signInWithEmailAndPassword(email, password)
     yield put(push(`/`))
   } catch (error) {
-    yield put(setAuthModuleError('login', error))
+    yield put(setAuthModuleError('login', 'การเข้าสู่ระบบไม่สำเร็จ'))
   } finally {
     yield put(setIsLoading(false))
   }
@@ -70,6 +70,7 @@ function* logoutTask(action: ReturnType<typeof logout>) {
   try {
     yield put(setIsLoading(true))
     yield firebase.auth().signOut()
+    yield put(push(`/`))
   } catch (error) {
     yield put(setAuthModuleError('logout', error))
   } finally {

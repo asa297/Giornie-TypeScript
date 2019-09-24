@@ -10,7 +10,7 @@ import { MainLayout } from '@app/components/layout/main-layout'
 import { LoginSchema } from '@app/helpers/validators/login-validator'
 import { TextInput } from '@app/components/input-field/text-input'
 import { LabelField } from '@app/components/label-field/label'
-import { getRootAuthState, getAuthIsLoading } from '@app/store/modules/auth/selector'
+import { getRootAuthState, getAuthIsLoading, getAuthErrorText, getAuthError } from '@app/store/modules/auth/selector'
 import { withNoAuth } from '@app/components/hoc/withNoAuth'
 
 interface LoginFormProps {
@@ -18,15 +18,15 @@ interface LoginFormProps {
   password: string
 }
 
-class HomePage extends React.Component<LoginPageProps> {
+class LoginPage extends React.Component<LoginPageProps> {
   render() {
-    const { loginFunction } = this.props
+    console.log(this.props)
     return (
       <MainLayout>
         <Formik
           initialValues={{}}
           validationSchema={LoginSchema}
-          onSubmit={(values: LoginFormProps) => loginFunction(values.email, values.password)}
+          onSubmit={(values: LoginFormProps) => this.props.loginFunction(values.email, values.password)}
           render={props => (
             <form onSubmit={props.handleSubmit}>
               <LabelField isRequired>Username</LabelField>
@@ -53,6 +53,7 @@ class HomePage extends React.Component<LoginPageProps> {
                   เข้าสู่ระบบ
                 </SubbmitButton>
               </SubmitContainer>
+              <ErrorLogin>{this.props.authError['login']}</ErrorLogin>
             </form>
           )}
         />
@@ -66,8 +67,10 @@ type LoginPageProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof map
 const mapStateToProps = state => {
   const authRootState = getRootAuthState(state)
   const isAuthLoading = getAuthIsLoading(authRootState)
+  const authError = getAuthError(authRootState)
   return {
     isAuthLoading,
+    authError,
   }
 }
 
@@ -78,12 +81,12 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default compose(
+  withNoAuth,
   connect(
     mapStateToProps,
     mapDispatchToProps,
   ),
-  withNoAuth,
-)(HomePage)
+)(LoginPage)
 
 const SubmitContainer = styled.div`
   padding-top: 60px;
@@ -105,4 +108,9 @@ const SubbmitButton = styled(Button)`
       background-color: #20344b;
     }
   }
+`
+
+const ErrorLogin = styled.label`
+  font-size: 20px;
+  color: red;
 `
