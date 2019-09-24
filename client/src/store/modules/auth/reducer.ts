@@ -2,6 +2,11 @@ import { fromJS } from 'immutable'
 
 import { actionTypes } from '@app/store/modules/auth/type'
 
+export interface UserRoleEnum {
+  ADMIN: 'ADMIN'
+  ACCOUNT: 'ACCOUNT'
+  STAFF: 'STAFF'
+}
 export interface IUser {
   _id: String
   email: String
