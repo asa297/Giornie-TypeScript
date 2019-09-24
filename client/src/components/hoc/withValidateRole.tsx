@@ -16,6 +16,7 @@ export const withValidateRole = (permisstionRole: Array<UserRoleEnum>) => Compon
     )
 
     if (!user) return <Redirect to="/login" />
+    if (!permisstionRole.find(role => user.role === role)) return <Redirect to="/" />
     return <Component />
   }
 }

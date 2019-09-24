@@ -2,10 +2,10 @@ import { fromJS } from 'immutable'
 
 import { actionTypes } from '@app/store/modules/auth/type'
 
-export interface UserRoleEnum {
-  ADMIN: 'ADMIN'
-  ACCOUNT: 'ACCOUNT'
-  STAFF: 'STAFF'
+export enum UserRoleEnum {
+  ADMIN = 1,
+  ACCOUNT = 2,
+  STAFF = 3,
 }
 export interface IUser {
   _id: String

@@ -9,7 +9,7 @@ export interface RequestWithUser extends Request {
   user?: IUser
 }
 
-export const AuthGuard = (req: RequestWithUser, res, next) => {
+export const AuthGuard = (req: RequestWithUser, res: Response, next) => {
   const authorizationReq = req.headers['authorization']
   if (!authorizationReq) return res.status(HttpStatus.UNAUTHORIZED).send('Not Authorized')
 

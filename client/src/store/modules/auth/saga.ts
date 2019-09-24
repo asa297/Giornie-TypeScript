@@ -37,7 +37,7 @@ function* initialAuthTask(action: ReturnType<typeof initialAuth>) {
 
         const config = yield select(getAuthorizationHeader)
 
-        const { data } = yield axios.get(`${process.env.REACT_APP_SERVER_URL}/api/userInfo`, config)
+        const { data } = yield axios.get(`${process.env.REACT_APP_SERVER_URL}/api/user/userInfo`, config)
 
         yield put(setUserInfo({ userInfo: data, accessToken: idToken }))
       } else {
