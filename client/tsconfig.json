@@ -10,7 +10,8 @@
       "@app/util/*": ["./util/*"],
       "@app/helpers/*": ["./helpers/*"],
       "@app/assets/*": ["./assets/*"],
-      "@app/components/*": ["./components/*"]
+      "@app/components/*": ["./components/*"],
+      "@app/static/*": ["./static/*"]
     },
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,

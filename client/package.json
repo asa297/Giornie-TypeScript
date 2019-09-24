@@ -172,7 +172,8 @@
             "@app/util": "./src/util",
             "@app/helpers": "./src/helpers",
             "@app/assets": "./src/assets",
-            "@app/components": "./src/components"
+            "@app/components": "./src/components",
+            "@app/static": "./src/static"
           }
         }
       ],

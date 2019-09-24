@@ -20,9 +20,8 @@ interface LoginFormProps {
 
 class LoginPage extends React.Component<LoginPageProps> {
   render() {
-    console.log(this.props)
     return (
-      <MainLayout>
+      <MainLayout pageName="เข้าสู่ระบบ">
         <Formik
           initialValues={{}}
           validationSchema={LoginSchema}
