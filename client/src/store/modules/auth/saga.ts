@@ -4,7 +4,6 @@ import { put, takeLeading, take, select } from 'redux-saga/effects'
 import { eventChannel } from 'redux-saga'
 import { push } from 'react-router-redux'
 import axios from 'axios'
-import * as R from 'ramda'
 
 import { actionTypes } from '@app/store/modules/auth/type'
 import {

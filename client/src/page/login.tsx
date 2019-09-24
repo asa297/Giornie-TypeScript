@@ -10,7 +10,7 @@ import { MainLayout } from '@app/components/layout/main-layout'
 import { LoginSchema } from '@app/helpers/validators/login-validator'
 import { TextInput } from '@app/components/input-field/text-input'
 import { LabelField } from '@app/components/label-field/label'
-import { getRootAuthState, getAuthIsLoading, getAuthErrorText, getAuthError } from '@app/store/modules/auth/selector'
+import { getRootAuthState, getAuthIsLoading, getAuthError } from '@app/store/modules/auth/selector'
 import { withNoAuth } from '@app/components/hoc/withNoAuth'
 
 interface LoginFormProps {
