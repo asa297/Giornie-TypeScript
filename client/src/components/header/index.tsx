@@ -104,10 +104,7 @@ const HeaderContainer = styled.header`
   position: sticky;
   top: 0;
   width: 100%;
-  @media (min-width: 600px) {
-    height: 64px;
-  }
-  height: 56px;
+  height: 60px;
   background-color: #001529;
   color: rgba(255, 255, 255, 0.65);
 
@@ -145,7 +142,7 @@ const UserNameContainer = styled.div`
   display: flex;
   justify-content: flex-end;
 
-  @media (max-width: 600px) {
+  @media (max-width: ${p => p.theme.breakpoints.xs.max}) {
     display: none;
   }
   padding-right: 20px;
