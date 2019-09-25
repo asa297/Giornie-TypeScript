@@ -7,6 +7,7 @@ import {
   setIsLoading,
   setOrganizationModuleError,
   getOrganationsSuccess,
+  createOrganization,
 } from '@app/store/modules/organization/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
 import { IOrganizationState } from '@app/store/modules/organization/reducer'
@@ -29,4 +30,22 @@ function* getOrganationsTask(action: ReturnType<typeof getOrganations>) {
   }
 }
 
-export default [takeLeading(actionTypes.GET_ORGANIZATIONS, getOrganationsTask)]
+function* createOrganizationTask(action: ReturnType<typeof createOrganization>) {
+  try {
+    const { formBody } = action.payload
+    yield put(setIsLoading(true))
+
+    const config = yield select(getAuthorizationHeader)
+
+    yield axios.post(`${process.env.REACT_APP_SERVER_URL}/api/org/createOrg`, formBody, config).then(res => res.data)
+  } catch (error) {
+    yield put(setOrganizationModuleError('createOrganation', 'มีบางอย่างผิดพลาด'))
+  } finally {
+    yield put(setIsLoading(false))
+  }
+}
+
+export default [
+  takeLeading(actionTypes.GET_ORGANIZATIONS, getOrganationsTask),
+  takeLeading(actionTypes.CREATE_ORGANIZATION, createOrganizationTask),
+]

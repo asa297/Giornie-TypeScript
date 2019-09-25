@@ -1,5 +1,4 @@
 import React from 'react'
-import { Button } from 'antd'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 
@@ -10,16 +9,19 @@ import { getOrganations } from '@app/store/modules/organization/action'
 import { getRootOrganizationState, getOrganizationList } from '@app/store/modules/organization/selector'
 
 class OrgListPage extends React.Component<OrgListPageProps> {
-  componentDidMount() {
-    this.props.getOrgsFunction()
+  state = {
+    done: false,
+  }
+
+  async componentDidMount() {
+    try {
+      await this.props.getOrgsFunction()
+      this.setState({ done: true })
+    } catch (error) {}
   }
 
   render() {
-    return (
-      <MainLayout>
-        <Button type="primary">test</Button>
-      </MainLayout>
-    )
+    return <MainLayout pageName="รายการบริษัท">{this.state.done && JSON.stringify(this.props.organizationList)}</MainLayout>
   }
 }
 

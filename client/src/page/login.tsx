@@ -2,7 +2,7 @@ import React from 'react'
 import { Button } from 'antd'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Formik, Field } from 'formik'
+import { Formik, Field, FormikProps } from 'formik'
 import { compose } from 'recompose'
 
 import { login } from '@app/store/modules/auth/action'
@@ -12,11 +12,7 @@ import { TextInput } from '@app/components/input-field/text-input'
 import { LabelField } from '@app/components/label-field/label'
 import { getRootAuthState, getAuthIsLoading, getAuthError } from '@app/store/modules/auth/selector'
 import { withNoAuth } from '@app/components/hoc/withNoAuth'
-
-interface LoginFormProps {
-  email: string
-  password: string
-}
+import { LoginFormBody } from '@app/helpers/form-types/login-form-type'
 
 class LoginPage extends React.Component<LoginPageProps> {
   render() {
@@ -25,14 +21,14 @@ class LoginPage extends React.Component<LoginPageProps> {
         <Formik
           initialValues={{}}
           validationSchema={LoginSchema}
-          onSubmit={(values: LoginFormProps) => this.props.loginFunction(values.email, values.password)}
-          render={props => (
+          onSubmit={(values: LoginFormBody) => this.props.loginFunction(values.email, values.password)}
+          render={(props: FormikProps<LoginFormBody>) => (
             <form onSubmit={props.handleSubmit}>
               <LabelField isRequired>Username</LabelField>
               <Field
                 name="email"
                 component={TextInput}
-                value={props.values['email']}
+                value={props.values.email}
                 onChange={props.handleChange}
                 placeholder="email"
               />
@@ -41,7 +37,7 @@ class LoginPage extends React.Component<LoginPageProps> {
               <Field
                 name="password"
                 component={TextInput}
-                value={props.values['password']}
+                value={props.values.password}
                 onChange={props.handleChange}
                 type="password"
                 placeholder="password"

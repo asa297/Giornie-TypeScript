@@ -9,6 +9,7 @@ import OrgListPage from '@app/page/org-list'
 const Routing: React.SFC<any> = () => {
   return (
     <Switch>
+      <Route exact path="/form/org/:id" component={OrgFormPage} />
       <Route exact path="/form/org" component={OrgFormPage} />
       <Route exact path="/org" component={OrgListPage} />
       <Route exact path="/login" component={LoginPage} />

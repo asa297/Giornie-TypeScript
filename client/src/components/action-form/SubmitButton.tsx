@@ -8,7 +8,7 @@ interface SubmitActionFormIProps {
 
 const SubmitActionForm: React.SFC<SubmitActionFormIProps> = props => {
   return (
-    <SubmitButton icon={props.loading ? 'loading' : 'save'} disabled={props.loading}>
+    <SubmitButton icon={props.loading ? 'loading' : 'save'} disabled={props.loading} htmlType="submit">
       {!props.loading ? 'Submit' : 'Submitting'}
     </SubmitButton>
   )

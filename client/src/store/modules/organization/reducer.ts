@@ -7,8 +7,8 @@ export interface IOrganization {
   org_type_name: string
   org_name: string
   org_com_A: number
-  org_Com_B: number
-  org_Code: string
+  org_com_B: number
+  org_code: string
   record_id_by: string
   record_name_by: string
   record_date: Date
