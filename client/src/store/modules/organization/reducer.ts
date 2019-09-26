@@ -25,7 +25,9 @@ export interface IOrganizationState {
     }
   }
   data: {
-    list: Array<IOrganization>
+    list: {
+      [id: string]: IOrganization
+    }
   }
 }
 
@@ -33,19 +35,29 @@ const initState: IOrganizationState = {
   error: {},
   isLoading: false,
   data: {
-    list: [],
+    list: {},
   },
 }
 
 export default (state = fromJS(initState), action) => {
   switch (action.type) {
-    case actionTypes.GET_ORGANIZATIONS:
-      return state.setIn(['data', 'list'], fromJS([]))
-    case actionTypes.GET_ORGANIZATIONS_SUCCESS:
-      return state.setIn(['data', 'list'], fromJS(action.payload.orgData))
+    case actionTypes.LOAD_ORGANIZATIONS:
+      return state.setIn(['data', 'list'], fromJS({}))
+    case actionTypes.LOAD_ORGANIZATIONS_SUCCESS:
+    case actionTypes.GET_ORGANIZATION_SUCCESS:
+      return state.updateIn(['data', 'list'], list => {
+        const _list = list.toJS()
+        const { orgData } = action.payload
+
+        orgData.forEach(element => {
+          _list[element._id] = element
+        })
+
+        return fromJS(_list)
+      })
     case actionTypes.IS_LOADING:
       return state.setIn(['isLoading'], fromJS(action.payload.isLoading))
-    case actionTypes.SET_AUTH_MODULE_ERROR:
+    case actionTypes.SET_ORGANIZATION_MODULE_ERROR:
       return state.updateIn(['error'], (errorState: any) => {
         const newItemsJS = errorState.toJS()
 

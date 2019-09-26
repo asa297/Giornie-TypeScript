@@ -12,7 +12,7 @@
   "prettier.singleQuote": true,
   "prettier.trailingComma": "all",
   "prettier.semi": false,
-  "prettier.printWidth": 130,
+  "prettier.printWidth": 150,
   "files.exclude": {
     "node_modules": true
   },

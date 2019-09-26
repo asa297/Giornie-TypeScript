@@ -1,6 +1,6 @@
 import { fromJS } from 'immutable'
 
-import { IOrganizationState } from '@app/store/modules/organization/reducer'
+import { IOrganizationState, IOrganization } from '@app/store/modules/organization/reducer'
 import { MODULE_NAME } from '@app/store/modules/organization/type'
 import { get } from '@app/store/modules/helpers/ramda'
 
@@ -10,3 +10,4 @@ export const getOrganizationError = get<IOrganizationState['error']>('error')
 export const getOrganizationErrorText = (errorKey: string) => get<IOrganizationState['error']>(`error.${errorKey}`)
 
 export const getOrganizationList = get<IOrganizationState['data']['list']>(`data.list`)
+export const getOrganizationListById = (docId: string) => get<IOrganizationState['data']['list']['']>(`data.list.${docId}`)

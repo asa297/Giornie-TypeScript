@@ -48,7 +48,7 @@ class LoginPage extends React.Component<LoginPageProps> {
                   เข้าสู่ระบบ
                 </SubbmitButton>
               </SubmitContainer>
-              <ErrorLogin>{this.props.authError['login']}</ErrorLogin>
+              <ErrorText>{this.props.authError['login']}</ErrorText>
             </form>
           )}
         />
@@ -105,7 +105,7 @@ const SubbmitButton = styled(Button)`
   }
 `
 
-const ErrorLogin = styled.label`
+const ErrorText = styled.label`
   font-size: 20px;
   color: red;
 `

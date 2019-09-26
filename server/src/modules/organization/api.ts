@@ -6,9 +6,12 @@ import { RoleGuard, UserRoleEnum } from 'middleware/auth/role-guard'
 import { OrganizationModel, IOrganizationBody } from 'models/organization/organization-model'
 
 module.exports = app => {
-  app.get('/api/org/getOrg', AuthGuard, RoleGuard([UserRoleEnum.ADMIN]), async (req: RequestWithUser, res: Response) => {
+  app.get('/api/org/loadOrg', AuthGuard, RoleGuard([UserRoleEnum.ADMIN]), async (req: RequestWithUser, res: Response) => {
     try {
-      const organations = await OrganizationModel.find().then(model => model.find(value => value))
+      const organations = await OrganizationModel.find(
+        {},
+        { record_id_by: 0, record_name_by: 0, record_date: 0, last_modify_by_id: 0, last_modify_by_name: 0 },
+      )
       res.send(organations)
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).send(error.message)
@@ -21,7 +24,7 @@ module.exports = app => {
 
       const found = await OrganizationModel.find().then(model => model.find(value => value.org_code === body.orgCode))
 
-      if (found) return res.status(HttpStatus.BAD_REQUEST).send('Organization Code is Duplicate.')
+      if (found) throw 'รหัสบริษัทซํ้า'
 
       const data: IOrganizationBody = {
         org_type_id: body.orgType.id,
@@ -39,6 +42,50 @@ module.exports = app => {
       }
 
       await new OrganizationModel(data).save()
+
+      res.send()
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).send(error)
+    }
+  })
+
+  app.get('/api/org/getOrg/:docId', AuthGuard, RoleGuard([UserRoleEnum.ADMIN]), async (req: RequestWithUser, res: Response) => {
+    try {
+      const { docId } = req.params
+      const organation = await OrganizationModel.find(
+        {},
+        { record_id_by: 0, record_name_by: 0, record_date: 0, last_modify_by_id: 0, last_modify_by_name: 0 },
+      ).then(model => model.find(value => value._id.toString() === docId))
+
+      res.send(organation)
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).send(error.message)
+    }
+  })
+
+  app.put('/api/org/updateOrg/:docId', AuthGuard, RoleGuard([UserRoleEnum.ADMIN]), async (req: RequestWithUser, res: Response) => {
+    try {
+      const { docId } = req.params
+      const { body, user } = req
+
+      await OrganizationModel.updateOne(
+        { _id: docId },
+        {
+          $set: {
+            org_type_id: body.orgType.id,
+            org_type_name: body.orgType.id,
+            org_name: body.orgName,
+            org_com_A: body.orgComA,
+            org_com_B: body.orgComB,
+            org_code: body.orgCode,
+            last_modify_by_id: user._id,
+            last_modify_by_name: user.name,
+            last_modify_date: new Date(),
+          },
+        },
+      ).exec()
+
+      res.send()
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).send(error.message)
     }
