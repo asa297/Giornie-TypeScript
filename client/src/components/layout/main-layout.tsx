@@ -31,5 +31,5 @@ const Root = styled(Layout)`
   margin: auto;
   max-width: 1440px;
 
-  min-height: calc(100vh - 60px);
+  height: calc(100vh - 60px);
 `

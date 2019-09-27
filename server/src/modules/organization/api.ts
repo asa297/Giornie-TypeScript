@@ -28,7 +28,7 @@ module.exports = app => {
 
       const data: IOrganizationBody = {
         org_type_id: body.orgType.id,
-        org_type_name: body.orgType.id,
+        org_type_name: body.orgType.label,
         org_name: body.orgName,
         org_com_A: body.orgComA,
         org_com_B: body.orgComB,
@@ -73,7 +73,7 @@ module.exports = app => {
         {
           $set: {
             org_type_id: body.orgType.id,
-            org_type_name: body.orgType.id,
+            org_type_name: body.orgType.label,
             org_name: body.orgName,
             org_com_A: body.orgComA,
             org_com_B: body.orgComB,

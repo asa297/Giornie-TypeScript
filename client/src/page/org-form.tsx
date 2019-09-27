@@ -22,6 +22,7 @@ import {
 } from '@app/store/modules/organization/selector'
 import { createOrganization, getOrganization, updateOrganization } from '@app/store/modules/organization/action'
 import { OrganizationFormBody } from '@app/helpers/form-types/organization-form-type'
+import { WithLoading } from '@app/components/hoc/withLoading'
 interface MatchParams {
   id: string
 }
@@ -71,46 +72,53 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
   }
 
   render() {
+    const isEditMode = this.state.docId ? true : false
+    const organizationData = this.props.organization(this.state.docId)
+    const isLoading = isEditMode ? (!organizationData ? true : false) : false
+
     return (
       <MainLayout pageName="บริษัท">
-        <Formik
-          initialValues={{}}
-          validationSchema={OrganizationSchema}
-          onSubmit={async (values: OrganizationFormBody) => {
-            if (!this.state.docId) this.props.createOrganization(values)
-            else this.props.updateOrganization(this.state.docId, values)
-          }}
-          ref={el => (this.form = el)}
-          render={(props: FormikProps<OrganizationFormBody>) => (
-            <form onSubmit={props.handleSubmit}>
-              <LabelField isRequired>ประเภทบริษัท</LabelField>
-              <Field
-                name="orgType"
-                component={SelectInput}
-                options={orgTypeData}
-                value={props.values.orgType ? props.values.orgType.label : ''}
-                onChange={id => props.setFieldValue('orgType', orgTypeData.find(org => org.id === id))}
-              />
+        <WithLoading isLoading={isLoading}>
+          <Formik
+            initialValues={{}}
+            validationSchema={OrganizationSchema}
+            onSubmit={async (values: OrganizationFormBody) => {
+              if (!this.state.docId) await this.props.createOrganization(values)
+              else await this.props.updateOrganization(this.state.docId, values)
+              this.props.history.push('/org')
+            }}
+            ref={el => (this.form = el)}
+            render={(props: FormikProps<OrganizationFormBody>) => (
+              <form onSubmit={props.handleSubmit}>
+                <LabelField isRequired>ประเภทบริษัท</LabelField>
+                <Field
+                  name="orgType"
+                  component={SelectInput}
+                  options={orgTypeData}
+                  value={props.values.orgType ? props.values.orgType.label : ''}
+                  onChange={id => props.setFieldValue('orgType', orgTypeData.find(org => org.id === id))}
+                />
 
-              <LabelField isRequired>ชื่อบริษัท</LabelField>
-              <Field name="orgName" component={TextInput} value={props.values.orgName} onChange={props.handleChange} />
+                <LabelField isRequired>ชื่อบริษัท</LabelField>
+                <Field name="orgName" component={TextInput} value={props.values.orgName} onChange={props.handleChange} />
 
-              <LabelField isRequired>ค่าคอมมิชชั่นสินค้า A</LabelField>
-              <Field type="number" name="orgComA" component={TextInput} value={props.values.orgComA} onChange={props.handleChange} />
+                <LabelField isRequired>ค่าคอมมิชชั่นสินค้า A</LabelField>
+                <Field type="number" name="orgComA" component={TextInput} value={props.values.orgComA} onChange={props.handleChange} />
 
-              <LabelField>ค่าคอมมิชชั่นสินค้า B</LabelField>
-              <Field type="number" name="orgComB" component={TextInput} value={props.values.orgComB} onChange={props.handleChange} />
+                <LabelField>ค่าคอมมิชชั่นสินค้า B</LabelField>
+                <Field type="number" name="orgComB" component={TextInput} value={props.values.orgComB} onChange={props.handleChange} />
 
-              <LabelField isRequired>รหัสบริษัท</LabelField>
-              <Field label="รหัสบริษัท" name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} />
+                <LabelField isRequired>รหัสบริษัท</LabelField>
+                <Field label="รหัสบริษัท" name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} />
 
-              <FormActionContainer>
-                <DeleteActionForm title="ยืนยันการลบรายการนี้" onConfirm={() => console.log('test')} />
-                <SubmitActionForm loading={this.props.isSummiting} />
-              </FormActionContainer>
-            </form>
-          )}
-        />
+                <FormActionContainer>
+                  <DeleteActionForm title="ยืนยันการลบรายการนี้" onConfirm={() => console.log('test')} />
+                  <SubmitActionForm loading={this.props.isSummiting} />
+                </FormActionContainer>
+              </form>
+            )}
+          />
+        </WithLoading>
       </MainLayout>
     )
   }

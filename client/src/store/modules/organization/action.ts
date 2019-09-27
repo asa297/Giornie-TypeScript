@@ -25,6 +25,17 @@ export const loadOrganizationsFailure = (error: any) => ({
 export const createOrganization = (formBody: OrganizationFormBody) => ({
   type: actionTypes.CREATE_ORGANIZATION,
   payload: { formBody },
+  [WAIT_FOR_ACTION]: actionTypes.UPDATE_ORGANIZATION_SUCCESS,
+  [ERROR_ACTION]: actionTypes.SET_ORGANIZATION_MODULE_ERROR,
+})
+
+export const createOrganizationSuccess = () => ({
+  type: actionTypes.CREATE_ORGANIZATION_SUCCESS,
+})
+
+export const createOrganizationFailure = (error: any) => ({
+  type: actionTypes.CREATE_ORGANIZATION_FAILURE,
+  error,
 })
 
 export const getOrganization = (docId: string) => ({

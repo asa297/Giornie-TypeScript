@@ -8,6 +8,7 @@ import { withValidateRole } from '@app/components/hoc/withValidateRole'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 import { loadOrganizations } from '@app/store/modules/organization/action'
 import { getRootOrganizationState, getOrganizationList } from '@app/store/modules/organization/selector'
+import { WithLoading } from '@app/components/hoc/withLoading'
 
 class OrgListPage extends React.Component<OrgListPageProps> {
   state = {
@@ -22,7 +23,11 @@ class OrgListPage extends React.Component<OrgListPageProps> {
   }
 
   render() {
-    return <MainLayout pageName="รายการบริษัท">{this.state.done && JSON.stringify(this.props.organizationList)}</MainLayout>
+    return (
+      <MainLayout pageName="รายการบริษัท">
+        <WithLoading isLoading={!this.state.done}>{JSON.stringify(this.props.organizationList)}</WithLoading>
+      </MainLayout>
+    )
   }
 }
 

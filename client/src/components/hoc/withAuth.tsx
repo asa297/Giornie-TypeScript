@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import { getRootAuthState, getUserInfo } from '@app/store/modules/auth/selector'
 
 export const withNoAuth = Component => {
-  return () => {
+  return props => {
     const user = useSelector(
       R.compose(
         getUserInfo,
@@ -15,6 +15,6 @@ export const withNoAuth = Component => {
     )
 
     if (!user) return <Redirect to="/login" />
-    return <Component />
+    return <Component {...props} />
   }
 }

@@ -7,7 +7,7 @@ import { getRootAuthState, getUserInfo } from '@app/store/modules/auth/selector'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 
 export const withValidateRole = (permisstionRole: Array<UserRoleEnum>) => Component => {
-  return () => {
+  return props => {
     const user = useSelector(
       R.compose(
         getUserInfo,
@@ -17,6 +17,6 @@ export const withValidateRole = (permisstionRole: Array<UserRoleEnum>) => Compon
 
     if (!user) return <Redirect to="/login" />
     if (!permisstionRole.find(role => user.role === role)) return <Redirect to="/" />
-    return <Component />
+    return <Component {...props} />
   }
 }

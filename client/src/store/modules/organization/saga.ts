@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { put, takeLeading, select } from 'redux-saga/effects'
+import { push } from 'react-router-redux'
 
 import { actionTypes } from '@app/store/modules/organization/type'
 import {
@@ -12,6 +13,7 @@ import {
   getOrganizationSuccess,
   updateOrganization,
   updateOrganizationSuccess,
+  createOrganizationSuccess,
 } from '@app/store/modules/organization/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
 import { IOrganizationState } from '@app/store/modules/organization/reducer'
@@ -43,6 +45,8 @@ function* createOrganizationTask(action: ReturnType<typeof createOrganization>) 
     yield axios.post(`${process.env.REACT_APP_SERVER_URL}/api/org/createOrg`, formBody, config).catch(error => {
       throw error.response.data
     })
+
+    yield put(createOrganizationSuccess())
   } catch (error) {
     yield put(setOrganizationModuleError('createOrganation', error))
   } finally {
