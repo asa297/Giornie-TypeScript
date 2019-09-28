@@ -20,21 +20,28 @@ import {
   getOrganizationError,
   getOrganizationListById,
 } from '@app/store/modules/organization/selector'
-import { createOrganization, getOrganization, updateOrganization } from '@app/store/modules/organization/action'
+import {
+  createOrganization,
+  getOrganization,
+  updateOrganization,
+  deleteOrganization,
+  setOrganizationModuleError,
+} from '@app/store/modules/organization/action'
 import { OrganizationFormBody } from '@app/helpers/form-types/organization-form-type'
 import { WithLoading } from '@app/components/hoc/withLoading'
+import { WithError } from '@app/components/hoc/withError'
 interface MatchParams {
   id: string
 }
 
 class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<MatchParams>> {
+  form: Formik<{}>
+
   state = {
     docId: null,
-    done: false,
     setFormDone: false,
+    isDeleting: false,
   }
-
-  form: Formik<{}>
 
   async componentDidMount() {
     const { params } = this.props.match
@@ -43,11 +50,11 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
       this.setState({ docId: params.id })
       const organizationData = this.props.organization(params.id)
 
+      this.props.setOrganizationModuleError('getOrganization')
+
       if (!organizationData) {
         await this.props.getOrganization(params.id)
       }
-
-      this.setState({ done: true })
     }
   }
 
@@ -71,54 +78,63 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
     }
   }
 
+  async handleDelete() {
+    this.setState({ isDeleting: true })
+    await this.props.deleteOrganization(this.state.docId)
+    this.setState({ isDeleting: false })
+  }
+
   render() {
     const isEditMode = this.state.docId ? true : false
     const organizationData = this.props.organization(this.state.docId)
     const isLoading = isEditMode ? (!organizationData ? true : false) : false
+    const isError = this.props.organizationError['getOrganization'] ? true : false
 
     return (
       <MainLayout pageName="บริษัท">
-        <WithLoading isLoading={isLoading}>
-          <Formik
-            initialValues={{}}
-            validationSchema={OrganizationSchema}
-            onSubmit={async (values: OrganizationFormBody) => {
-              if (!this.state.docId) await this.props.createOrganization(values)
-              else await this.props.updateOrganization(this.state.docId, values)
-              this.props.history.push('/org')
-            }}
-            ref={el => (this.form = el)}
-            render={(props: FormikProps<OrganizationFormBody>) => (
-              <form onSubmit={props.handleSubmit}>
-                <LabelField isRequired>ประเภทบริษัท</LabelField>
-                <Field
-                  name="orgType"
-                  component={SelectInput}
-                  options={orgTypeData}
-                  value={props.values.orgType ? props.values.orgType.label : ''}
-                  onChange={id => props.setFieldValue('orgType', orgTypeData.find(org => org.id === id))}
-                />
+        <WithError isError={isError}>
+          <WithLoading isLoading={isLoading}>
+            <Formik
+              initialValues={{}}
+              validationSchema={OrganizationSchema}
+              onSubmit={async (values: OrganizationFormBody) => {
+                if (!this.state.docId) await this.props.createOrganization(values)
+                else await this.props.updateOrganization(this.state.docId, values)
+                this.props.history.push('/org')
+              }}
+              ref={el => (this.form = el)}
+              render={(props: FormikProps<OrganizationFormBody>) => (
+                <form onSubmit={props.handleSubmit}>
+                  <LabelField isRequired>ประเภทบริษัท</LabelField>
+                  <Field
+                    name="orgType"
+                    component={SelectInput}
+                    options={orgTypeData}
+                    value={props.values.orgType ? props.values.orgType.label : ''}
+                    onChange={id => props.setFieldValue('orgType', orgTypeData.find(org => org.id === id))}
+                  />
 
-                <LabelField isRequired>ชื่อบริษัท</LabelField>
-                <Field name="orgName" component={TextInput} value={props.values.orgName} onChange={props.handleChange} />
+                  <LabelField isRequired>ชื่อบริษัท</LabelField>
+                  <Field name="orgName" component={TextInput} value={props.values.orgName} onChange={props.handleChange} />
 
-                <LabelField isRequired>ค่าคอมมิชชั่นสินค้า A</LabelField>
-                <Field type="number" name="orgComA" component={TextInput} value={props.values.orgComA} onChange={props.handleChange} />
+                  <LabelField isRequired>ค่าคอมมิชชั่นสินค้า A</LabelField>
+                  <Field type="number" name="orgComA" component={TextInput} value={props.values.orgComA} onChange={props.handleChange} />
 
-                <LabelField>ค่าคอมมิชชั่นสินค้า B</LabelField>
-                <Field type="number" name="orgComB" component={TextInput} value={props.values.orgComB} onChange={props.handleChange} />
+                  <LabelField>ค่าคอมมิชชั่นสินค้า B</LabelField>
+                  <Field type="number" name="orgComB" component={TextInput} value={props.values.orgComB} onChange={props.handleChange} />
 
-                <LabelField isRequired>รหัสบริษัท</LabelField>
-                <Field label="รหัสบริษัท" name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} />
+                  <LabelField isRequired>รหัสบริษัท</LabelField>
+                  <Field label="รหัสบริษัท" name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} />
 
-                <FormActionContainer>
-                  <DeleteActionForm title="ยืนยันการลบรายการนี้" onConfirm={() => console.log('test')} />
-                  <SubmitActionForm loading={this.props.isSummiting} />
-                </FormActionContainer>
-              </form>
-            )}
-          />
-        </WithLoading>
+                  <FormActionContainer>
+                    <DeleteActionForm title="ยืนยันการลบรายการนี้" loading={this.state.isDeleting} onConfirm={() => this.handleDelete()} />
+                    <SubmitActionForm loading={this.props.isSummiting} />
+                  </FormActionContainer>
+                </form>
+              )}
+            />
+          </WithLoading>
+        </WithError>
       </MainLayout>
     )
   }
@@ -142,6 +158,8 @@ const mapDispatchToProps = dispatch => {
     createOrganization: formBody => dispatch(createOrganization(formBody)),
     updateOrganization: (docId, formBody) => dispatch(updateOrganization(docId, formBody)),
     getOrganization: docId => dispatch(getOrganization(docId)),
+    deleteOrganization: docId => dispatch(deleteOrganization(docId)),
+    setOrganizationModuleError: key => dispatch(setOrganizationModuleError(key)),
   }
 }
 

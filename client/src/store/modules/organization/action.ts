@@ -7,7 +7,7 @@ import { OrganizationFormBody } from '@app/helpers/form-types/organization-form-
 export const loadOrganizations = () => ({
   type: actionTypes.LOAD_ORGANIZATIONS,
   [WAIT_FOR_ACTION]: actionTypes.LOAD_ORGANIZATIONS_SUCCESS,
-  [ERROR_ACTION]: actionTypes.SET_ORGANIZATION_MODULE_ERROR,
+  [ERROR_ACTION]: actionTypes.LOAD_ORGANIZATIONS_FAILURE,
 })
 
 export const loadOrganizationsSuccess = (orgData: Array<IOrganizationState>) => ({
@@ -26,7 +26,7 @@ export const createOrganization = (formBody: OrganizationFormBody) => ({
   type: actionTypes.CREATE_ORGANIZATION,
   payload: { formBody },
   [WAIT_FOR_ACTION]: actionTypes.UPDATE_ORGANIZATION_SUCCESS,
-  [ERROR_ACTION]: actionTypes.SET_ORGANIZATION_MODULE_ERROR,
+  [ERROR_ACTION]: actionTypes.CREATE_ORGANIZATION_FAILURE,
 })
 
 export const createOrganizationSuccess = () => ({
@@ -44,7 +44,7 @@ export const getOrganization = (docId: string) => ({
     docId,
   },
   [WAIT_FOR_ACTION]: actionTypes.GET_ORGANIZATION_SUCCESS,
-  [ERROR_ACTION]: actionTypes.SET_ORGANIZATION_MODULE_ERROR,
+  [ERROR_ACTION]: actionTypes.GET_ORGANIZATION_FAILURE,
 })
 
 export const getOrganizationSuccess = (orgData: Array<IOrganizationState>) => ({
@@ -66,7 +66,7 @@ export const updateOrganization = (docId: string, formBody: OrganizationFormBody
     formBody,
   },
   [WAIT_FOR_ACTION]: actionTypes.UPDATE_ORGANIZATION_SUCCESS,
-  [ERROR_ACTION]: actionTypes.SET_ORGANIZATION_MODULE_ERROR,
+  [ERROR_ACTION]: actionTypes.UPDATE_ORGANIZATION_FAILURE,
 })
 
 export const updateOrganizationSuccess = () => ({
@@ -75,6 +75,24 @@ export const updateOrganizationSuccess = () => ({
 
 export const updateOrganizationFailure = (error: any) => ({
   type: actionTypes.UPDATE_ORGANIZATION_FAILURE,
+  error,
+})
+
+export const deleteOrganization = (docId: string) => ({
+  type: actionTypes.DELETE_ORGANIZATION,
+  payload: {
+    docId,
+  },
+  [WAIT_FOR_ACTION]: actionTypes.DELETE_ORGANIZATION_SUCCESS,
+  [ERROR_ACTION]: actionTypes.DELETE_ORGANIZATION_FAILURE,
+})
+
+export const deleteOrganizationSuccess = () => ({
+  type: actionTypes.DELETE_ORGANIZATION_SUCCESS,
+})
+
+export const deleteOrganizationFailure = (error: any) => ({
+  type: actionTypes.DELETE_ORGANIZATION_FAILURE,
   error,
 })
 

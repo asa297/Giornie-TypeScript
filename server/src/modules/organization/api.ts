@@ -57,6 +57,8 @@ module.exports = app => {
         { record_id_by: 0, record_name_by: 0, record_date: 0, last_modify_by_id: 0, last_modify_by_name: 0 },
       ).then(model => model.find(value => value._id.toString() === docId))
 
+      if (!organation) res.status(HttpStatus.BAD_REQUEST).send('ไม่พบเอกสาร')
+
       res.send(organation)
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).send(error.message)
@@ -84,6 +86,18 @@ module.exports = app => {
           },
         },
       ).exec()
+
+      res.send()
+    } catch (error) {
+      res.status(HttpStatus.BAD_REQUEST).send(error.message)
+    }
+  })
+
+  app.delete('/api/org/deleteOrg/:docId', AuthGuard, RoleGuard([UserRoleEnum.ADMIN]), async (req: RequestWithUser, res: Response) => {
+    try {
+      const { docId } = req.params
+
+      await OrganizationModel.findByIdAndDelete(docId)
 
       res.send()
     } catch (error) {

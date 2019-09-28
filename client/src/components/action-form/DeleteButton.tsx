@@ -4,13 +4,16 @@ import { Button, Popconfirm } from 'antd'
 
 interface DeleteActionFormIProps {
   title: string
+  loading: boolean
   onConfirm: () => void
 }
 
 const DeleteActionForm: React.SFC<DeleteActionFormIProps> = props => {
   return (
     <Popconfirm title={props.title} onConfirm={props.onConfirm}>
-      <DeleteButton icon="delete">Delete</DeleteButton>
+      <DeleteButton icon="delete" loading={props.loading}>
+        Delete
+      </DeleteButton>
     </Popconfirm>
   )
 }
