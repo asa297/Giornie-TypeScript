@@ -14,6 +14,7 @@ import { getRootOrganizationState, getOrganizationList } from '@app/store/module
 import { WithLoading } from '@app/components/hoc/withLoading'
 import { TableWrapper } from '@app/components/table/my-table'
 import { SearchInput } from '@app/components/search-input/search.input'
+import { ButtonNew } from '@app/components/button-new/button-new'
 
 const columns: ColumnProps<any>[] = [
   {
@@ -87,6 +88,7 @@ class OrgListPage extends React.Component<OrgListPageProps & RouteComponentProps
               }
             }}
           />
+          <ButtonNew onClick={() => this.props.history.push('/org/form')} />
         </WithLoading>
       </MainLayout>
     )
