@@ -81,6 +81,7 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
   async handleDelete() {
     this.setState({ isDeleting: true })
     await this.props.deleteOrganization(this.state.docId)
+    this.props.history.push('/org')
     this.setState({ isDeleting: false })
   }
 

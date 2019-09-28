@@ -111,7 +111,6 @@ function* updateOrganizationTask(action: ReturnType<typeof updateOrganization>) 
 function* deleteOrganizationTask(action: ReturnType<typeof deleteOrganization>) {
   try {
     const { docId } = action.payload
-    yield put(setIsLoading(true))
 
     const config = yield select(getAuthorizationHeader)
 
@@ -123,8 +122,6 @@ function* deleteOrganizationTask(action: ReturnType<typeof deleteOrganization>) 
   } catch (error) {
     yield put(setOrganizationModuleError('deleteOrganization', error))
     yield put(deleteOrganizationFailure(error))
-  } finally {
-    yield put(setIsLoading(false))
   }
 }
 
