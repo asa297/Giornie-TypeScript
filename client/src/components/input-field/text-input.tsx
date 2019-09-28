@@ -21,7 +21,7 @@ export { TextInput }
 const InputWrapper = styled(Input)<{ error: boolean }>`
   &.ant-input {
     width: 100%;
-    height: 50px;
+
     border: ${props => (props.error ? '1px solid red' : '1px solid #d9d9d9')};
     font-size: 20px;
     background-color: #f7f7f7;

@@ -22,4 +22,8 @@ const Table = styled(AntdTable)`
       cursor: pointer;
     }
   }
+
+  .ant-table-placeholder {
+    display: none;
+  }
 `

@@ -173,4 +173,6 @@ export default compose(
 
 const FormActionContainer = styled.div`
   display: flex;
+
+  margin-top: 20px;
 `

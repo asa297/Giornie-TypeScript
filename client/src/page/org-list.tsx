@@ -13,11 +13,13 @@ import { loadOrganizations } from '@app/store/modules/organization/action'
 import { getRootOrganizationState, getOrganizationList } from '@app/store/modules/organization/selector'
 import { WithLoading } from '@app/components/hoc/withLoading'
 import { TableWrapper } from '@app/components/table/my-table'
+import { SearchInput } from '@app/components/search-input/search.input'
 
 const columns: ColumnProps<any>[] = [
   {
     title: 'ชื่อบริษัท',
     dataIndex: 'org_name',
+    width: '20%',
     render: text => {
       return <div>{text}</div>
     },
@@ -26,6 +28,7 @@ const columns: ColumnProps<any>[] = [
     title: 'รหัสบริษัท',
     dataIndex: 'org_code',
     align: 'center',
+    width: '20%',
   },
   {
     title: 'คอมมิชชั่นสินค้า A (%)',
@@ -49,6 +52,7 @@ const columns: ColumnProps<any>[] = [
     title: 'วันที่แก้ไขล่าสุด',
     dataIndex: 'last_modify_date',
     align: 'center',
+    width: '30%',
     render: text => {
       return <div>{moment(text).format('DD/MM/YYYY HH:MM:SS')}</div>
     },
@@ -58,6 +62,7 @@ const columns: ColumnProps<any>[] = [
 class OrgListPage extends React.Component<OrgListPageProps & RouteComponentProps> {
   state = {
     done: false,
+    keyword: '',
   }
 
   async componentDidMount() {
@@ -69,10 +74,11 @@ class OrgListPage extends React.Component<OrgListPageProps & RouteComponentProps
     return (
       <MainLayout pageName="รายการบริษัท">
         <WithLoading isLoading={!this.state.done}>
+          <SearchInput placeholder="ค้นหารายการบริษัท" onChange={e => this.setState({ keyword: e.target.value })} />
           <TableWrapper
             rowKey="_id"
             columns={columns}
-            dataSource={this.props.organizationList}
+            dataSource={this.props.data(this.state.keyword)}
             pagination={false}
             bordered
             onRow={(record, index) => {
@@ -92,8 +98,15 @@ type OrgListPageProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof m
 const mapStateToProps = state => {
   const organizationRootState = getRootOrganizationState(state)
   const organizationList = getOrganizationList(organizationRootState)
+
+  const data = key =>
+    R.compose(
+      R.filter((v: any) => v.org_name.includes(key) || v.org_code.includes(key)),
+      v => R.values(v),
+    )(organizationList)
+
   return {
-    organizationList: R.values(organizationList),
+    data,
   }
 }
 

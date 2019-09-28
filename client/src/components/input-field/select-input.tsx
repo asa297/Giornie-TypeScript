@@ -49,8 +49,6 @@ const SelectWrapper = styled(Select)<{ isError: boolean }>`
     display: flex;
     align-items: center;
 
-    height: 50px;
-
     padding: 35px 20px;
   }
 
