@@ -32,4 +32,6 @@ const Root = styled(Layout)`
   max-width: 1440px;
 
   height: calc(100vh - 60px);
+
+  background: inherit;
 `

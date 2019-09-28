@@ -2,7 +2,9 @@ import React from 'react'
 import { compose } from 'recompose'
 import { connect } from 'react-redux'
 import * as R from 'ramda'
-import { Table } from 'react-virtualized'
+import moment from 'moment'
+import { ColumnProps } from 'antd/lib/table'
+import { RouteComponentProps } from 'react-router-dom'
 
 import { MainLayout } from '@app/components/layout/main-layout'
 import { withValidateRole } from '@app/components/hoc/withValidateRole'
@@ -10,8 +12,50 @@ import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 import { loadOrganizations } from '@app/store/modules/organization/action'
 import { getRootOrganizationState, getOrganizationList } from '@app/store/modules/organization/selector'
 import { WithLoading } from '@app/components/hoc/withLoading'
+import { TableWrapper } from '@app/components/table/my-table'
 
-class OrgListPage extends React.Component<OrgListPageProps> {
+const columns: ColumnProps<any>[] = [
+  {
+    title: 'ชื่อบริษัท',
+    dataIndex: 'org_name',
+    render: text => {
+      return <div>{text}</div>
+    },
+  },
+  {
+    title: 'รหัสบริษัท',
+    dataIndex: 'org_code',
+    align: 'center',
+  },
+  {
+    title: 'คอมมิชชั่นสินค้า A (%)',
+    dataIndex: 'org_com_A',
+    align: 'right',
+    width: 200,
+    render: text => {
+      return <span>{text}%</span>
+    },
+  },
+  {
+    title: 'คอมมิชชั่นสินค้า B (%)',
+    dataIndex: 'org_com_B',
+    align: 'right',
+    width: 200,
+    render: text => {
+      return <span>{text}%</span>
+    },
+  },
+  {
+    title: 'วันที่แก้ไขล่าสุด',
+    dataIndex: 'last_modify_date',
+    align: 'center',
+    render: text => {
+      return <div>{moment(text).format('DD/MM/YYYY HH:MM:SS')}</div>
+    },
+  },
+]
+
+class OrgListPage extends React.Component<OrgListPageProps & RouteComponentProps> {
   state = {
     done: false,
   }
@@ -25,48 +69,18 @@ class OrgListPage extends React.Component<OrgListPageProps> {
     return (
       <MainLayout pageName="รายการบริษัท">
         <WithLoading isLoading={!this.state.done}>
-          {/* <Table
-                ref="Table"
-                disableHeader={disableHeader}
-                headerClassName={styles.headerColumn}
-                headerHeight={headerHeight}
-                height={height}
-                noRowsRenderer={this._noRowsRenderer}
-                overscanRowCount={overscanRowCount}
-                rowClassName={this._rowClassName}
-                rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
-                rowGetter={rowGetter}
-                rowCount={rowCount}
-                scrollToIndex={scrollToIndex}
-                sort={this._sort}
-                sortBy={sortBy}
-                sortDirection={sortDirection}
-                width={width}>
-                {!hideIndexRow && (
-                  <Column
-                    label="Index"
-                    cellDataGetter={({rowData}) => rowData.index}
-                    dataKey="index"
-                    disableSort={!this._isSortEnabled()}
-                    width={60}
-                  />
-                )}
-                <Column
-                  dataKey="name"
-                  disableSort={!this._isSortEnabled()}
-                  headerRenderer={this._headerRenderer}
-                  width={90}
-                />
-                <Column
-                  width={210}
-                  disableSort
-                  label="The description label is really long so that it will be truncated"
-                  dataKey="random"
-                  className={styles.exampleColumn}
-                  cellRenderer={({cellData}) => cellData}
-                  flexGrow={1}
-                />
-              </Table> */}
+          <TableWrapper
+            rowKey="_id"
+            columns={columns}
+            dataSource={this.props.organizationList}
+            pagination={false}
+            bordered
+            onRow={(record, index) => {
+              return {
+                onClick: () => this.props.history.push(`/org/form/${record._id}`),
+              }
+            }}
+          />
         </WithLoading>
       </MainLayout>
     )
