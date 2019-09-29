@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { put, takeLeading, select } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
 
 import { actionTypes } from '@app/store/modules/organization/type'
 import {
@@ -21,9 +20,12 @@ import {
   getOrganizationFailure,
   updateOrganizationFailure,
   deleteOrganizationFailure,
+  loadOrganizationsSelection,
+  loadOrganizationsSelectionSuccess,
+  loadOrganizationsSelectionFailure,
 } from '@app/store/modules/organization/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
-import { IOrganizationState } from '@app/store/modules/organization/reducer'
+import { IOrganization, IOrganizationSelection } from '@app/store/modules/organization/reducer'
 
 function* loadOrganizationsTask(action: ReturnType<typeof loadOrganizations>) {
   try {
@@ -31,7 +33,7 @@ function* loadOrganizationsTask(action: ReturnType<typeof loadOrganizations>) {
 
     const config = yield select(getAuthorizationHeader)
 
-    const data: Array<IOrganizationState> = yield axios
+    const data: Array<IOrganization> = yield axios
       .get(`${process.env.REACT_APP_SERVER_URL}/api/org/loadOrg`, config)
       .then(res => res.data)
       .catch(error => {
@@ -75,9 +77,12 @@ function* getOrganizationTask(action: ReturnType<typeof getOrganization>) {
 
     const config = yield select(getAuthorizationHeader)
 
-    const { data } = yield axios.get(`${process.env.REACT_APP_SERVER_URL}/api/org/getOrg/${docId}`, config).catch(error => {
-      throw error.response.data
-    })
+    const data: IOrganization = yield axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/org/getOrg/${docId}`, config)
+      .then(res => res.data)
+      .catch(error => {
+        throw error.response.data
+      })
 
     yield put(getOrganizationSuccess([data]))
   } catch (error) {
@@ -125,10 +130,29 @@ function* deleteOrganizationTask(action: ReturnType<typeof deleteOrganization>) 
   }
 }
 
+function* loadOrganizationsSelectionTask(action: ReturnType<typeof loadOrganizationsSelection>) {
+  try {
+    const config = yield select(getAuthorizationHeader)
+
+    const data: Array<IOrganizationSelection> = yield axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/org/loadOrgSelection`, config)
+      .then(res => res.data)
+      .catch(error => {
+        throw error.response.data
+      })
+
+    yield put(loadOrganizationsSelectionSuccess(data))
+  } catch (error) {
+    yield put(setOrganizationModuleError('loadOrganizationsSelection', error))
+    yield put(loadOrganizationsSelectionFailure(error))
+  }
+}
+
 export default [
   takeLeading(actionTypes.LOAD_ORGANIZATIONS, loadOrganizationsTask),
   takeLeading(actionTypes.CREATE_ORGANIZATION, createOrganizationTask),
   takeLeading(actionTypes.GET_ORGANIZATION, getOrganizationTask),
   takeLeading(actionTypes.UPDATE_ORGANIZATION, updateOrganizationTask),
   takeLeading(actionTypes.DELETE_ORGANIZATION, deleteOrganizationTask),
+  takeLeading(actionTypes.LOAD_ORGANIZATIONS_SELECTION, loadOrganizationsSelectionTask),
 ]

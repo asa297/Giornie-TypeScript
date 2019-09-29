@@ -1,7 +1,7 @@
 import { WAIT_FOR_ACTION, ERROR_ACTION } from 'redux-wait-for-action'
 
 import { actionTypes } from '@app/store/modules/organization/type'
-import { IOrganizationState } from '@app/store/modules/organization/reducer'
+import { IOrganization, IOrganizationSelection } from '@app/store/modules/organization/reducer'
 import { OrganizationFormBody } from '@app/helpers/form-types/organization-form-type'
 
 export const loadOrganizations = () => ({
@@ -10,7 +10,7 @@ export const loadOrganizations = () => ({
   [ERROR_ACTION]: actionTypes.LOAD_ORGANIZATIONS_FAILURE,
 })
 
-export const loadOrganizationsSuccess = (orgData: Array<IOrganizationState>) => ({
+export const loadOrganizationsSuccess = (orgData: Array<IOrganization>) => ({
   type: actionTypes.LOAD_ORGANIZATIONS_SUCCESS,
   payload: {
     orgData,
@@ -47,7 +47,7 @@ export const getOrganization = (docId: string) => ({
   [ERROR_ACTION]: actionTypes.GET_ORGANIZATION_FAILURE,
 })
 
-export const getOrganizationSuccess = (orgData: Array<IOrganizationState>) => ({
+export const getOrganizationSuccess = (orgData: Array<IOrganization>) => ({
   type: actionTypes.GET_ORGANIZATION_SUCCESS,
   payload: {
     orgData,
@@ -93,6 +93,24 @@ export const deleteOrganizationSuccess = () => ({
 
 export const deleteOrganizationFailure = (error: any) => ({
   type: actionTypes.DELETE_ORGANIZATION_FAILURE,
+  error,
+})
+
+export const loadOrganizationsSelection = () => ({
+  type: actionTypes.LOAD_ORGANIZATIONS_SELECTION,
+  [WAIT_FOR_ACTION]: actionTypes.LOAD_ORGANIZATIONS_SELECTION_SUCCESS,
+  [ERROR_ACTION]: actionTypes.LOAD_ORGANIZATIONS_SELECTION_FAILURE,
+})
+
+export const loadOrganizationsSelectionSuccess = (orgData: Array<IOrganizationSelection>) => ({
+  type: actionTypes.LOAD_ORGANIZATIONS_SELECTION_SUCCESS,
+  payload: {
+    orgData,
+  },
+})
+
+export const loadOrganizationsSelectionFailure = (error: any) => ({
+  type: actionTypes.LOAD_ORGANIZATIONS_SELECTION_FAILURE,
   error,
 })
 

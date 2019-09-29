@@ -18,6 +18,20 @@ module.exports = app => {
     }
   })
 
+  app.get(
+    '/api/org/loadOrgSelection',
+    AuthGuard,
+    RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]),
+    async (req: RequestWithUser, res: Response) => {
+      try {
+        const organations = await OrganizationModel.find({}, { _id: 1, org_name: 1, org_code: 1 })
+        res.send(organations)
+      } catch (error) {
+        res.status(HttpStatus.BAD_REQUEST).send(error.message)
+      }
+    },
+  )
+
   app.post('/api/org/createOrg', AuthGuard, RoleGuard([UserRoleEnum.ADMIN]), async (req: RequestWithUser, res: Response) => {
     try {
       const { body, user } = req

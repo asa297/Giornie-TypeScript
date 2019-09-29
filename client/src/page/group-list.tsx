@@ -1,0 +1,127 @@
+import React from 'react'
+import { compose } from 'recompose'
+import { connect } from 'react-redux'
+import * as R from 'ramda'
+import moment from 'moment'
+import { ColumnProps } from 'antd/lib/table'
+import { RouteComponentProps } from 'react-router-dom'
+
+import { MainLayout } from '@app/components/layout/main-layout'
+import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { UserRoleEnum } from '@app/store/modules/auth/reducer'
+import { WithLoading } from '@app/components/hoc/withLoading'
+import { TableWrapper } from '@app/components/table/my-table'
+import { SearchInput } from '@app/components/search-input/search.input'
+import { ButtonNew } from '@app/components/button-new/button-new'
+import { loadGroups } from '@app/store/modules/group/action'
+import { getRootGroupState, getGroupList } from '@app/store/modules/group/selector'
+
+const columns: ColumnProps<any>[] = [
+  {
+    title: 'ชื่อบริษัท',
+    dataIndex: 'org_name',
+    width: '20%',
+    render: text => {
+      return <div>{text}</div>
+    },
+  },
+  {
+    title: 'รหัสบริษัท',
+    dataIndex: 'org_code',
+    align: 'center',
+    width: '20%',
+  },
+  {
+    title: 'คอมมิชชั่นสินค้า A (%)',
+    dataIndex: 'org_com_A',
+    align: 'right',
+    width: 200,
+    render: text => {
+      return <span>{text}%</span>
+    },
+  },
+  {
+    title: 'คอมมิชชั่นสินค้า B (%)',
+    dataIndex: 'org_com_B',
+    align: 'right',
+    width: 200,
+    render: text => {
+      return <span>{text}%</span>
+    },
+  },
+  {
+    title: 'วันที่แก้ไขล่าสุด',
+    dataIndex: 'last_modify_date',
+    align: 'center',
+    width: '30%',
+    render: text => {
+      return <div>{moment(text).format('DD/MM/YYYY HH:MM:SS')}</div>
+    },
+  },
+]
+
+class GroupListPage extends React.Component<GroupListPageProps & RouteComponentProps> {
+  state = {
+    done: false,
+    keyword: '',
+  }
+
+  async componentDidMount() {
+    await this.props.loadGroups()
+    this.setState({ done: true })
+  }
+
+  render() {
+    return (
+      <MainLayout pageName="รายการกรุ๊ป">
+        <WithLoading isLoading={!this.state.done}>
+          <SearchInput placeholder="ค้นหารายการกรุ๊ป" onChange={e => this.setState({ keyword: e.target.value })} />
+          <TableWrapper
+            rowKey="_id"
+            columns={columns}
+            dataSource={this.props.data(this.state.keyword)}
+            pagination={false}
+            bordered
+            onRow={(record, index) => {
+              return {
+                onClick: () => this.props.history.push(`/group/form/${record._id}`),
+              }
+            }}
+          />
+          <ButtonNew onClick={() => this.props.history.push('/group/form')} />
+        </WithLoading>
+      </MainLayout>
+    )
+  }
+}
+
+type GroupListPageProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
+
+const mapStateToProps = state => {
+  const groupRootState = getRootGroupState(state)
+  const groupList = getGroupList(groupRootState)
+
+  const data = key =>
+    R.compose(
+      R.filter((v: any) => v.group_code.includes(key) || v.guide_name.includes(key)),
+      v => R.values(v),
+    )(groupList)
+
+  return {
+    data,
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadGroups: () => dispatch(loadGroups()),
+  }
+}
+
+export default compose(
+  withValidateRole([UserRoleEnum.ADMIN]),
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  ),
+)(GroupListPage)

@@ -89,11 +89,11 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
     const isEditMode = this.state.docId ? true : false
     const organizationData = this.props.organization(this.state.docId)
     const isLoading = isEditMode ? (!organizationData ? true : false) : false
-    const isError = this.props.organizationError['getOrganization'] ? true : false
+    const isLoadOrgError = this.props.organizationError['getOrganization'] ? true : false
 
     return (
       <MainLayout pageName="บริษัท">
-        <WithError isError={isError}>
+        <WithError isError={isLoadOrgError}>
           <WithLoading isLoading={isLoading}>
             <Formik
               initialValues={{}}
@@ -125,7 +125,7 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
                   <Field type="number" name="orgComB" component={TextInput} value={props.values.orgComB} onChange={props.handleChange} />
 
                   <LabelField isRequired>รหัสบริษัท</LabelField>
-                  <Field label="รหัสบริษัท" name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} />
+                  <Field name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} />
 
                   <FormActionContainer>
                     <DeleteActionForm title="ยืนยันการลบรายการนี้" loading={this.state.isDeleting} onConfirm={() => this.handleDelete()} />
