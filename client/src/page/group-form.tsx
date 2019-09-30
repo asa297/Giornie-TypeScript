@@ -20,6 +20,8 @@ import { GroupSchema } from '@app/helpers/validators/group-validator'
 import { GroupFormBody } from '@app/helpers/form-types/group-form-type'
 import { loadOrganizationsSelection } from '@app/store/modules/organization/action'
 import { getRootOrganizationState, getOrganizationOption } from '@app/store/modules/organization/selector'
+import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 
 interface MatchParams {
   id: string
@@ -123,7 +125,9 @@ class GroupPage extends React.Component<GroupFormPageProps & RouteComponentProps
                   <Field name="groupRemark" component={TextInput} value={props.values.groupRemark} onChange={props.handleChange} />
 
                   <FormActionContainer>
-                    <DeleteActionForm title="ยืนยันการลบรายการนี้" loading={this.state.isDeleting} onConfirm={() => this.handleDelete()} />
+                    {isEditMode && (
+                      <DeleteActionForm title="ยืนยันการลบรายการนี้" loading={this.state.isDeleting} onConfirm={() => this.handleDelete()} />
+                    )}
                     <SubmitActionForm loading={this.props.isSummiting} />
                   </FormActionContainer>
                 </form>
@@ -164,6 +168,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default compose(
+  withValidateRole([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]),
   connect(
     mapStateToProps,
     mapDispatchToProps,
@@ -172,6 +177,7 @@ export default compose(
 
 const FormActionContainer = styled.div`
   display: flex;
+  justify-content: center;
 
   margin-top: 20px;
 `

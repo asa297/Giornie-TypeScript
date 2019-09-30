@@ -22,6 +22,7 @@ export { DeleteActionForm }
 
 const DeleteButton = styled(Button)`
   width: 100%;
+  max-width: 300px;
   height: 100%;
   background-color: red !important;
   border-color: transparent !important;

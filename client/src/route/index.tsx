@@ -7,10 +7,16 @@ import OrgFormPage from '@app/page/org-form'
 import OrgListPage from '@app/page/org-list'
 import GroupFormPage from '@app/page/group-form'
 import GroupListPage from '@app/page/group-list'
+import SellerFormPage from '@app/page/seller-form'
+import SellerListPage from '@app/page/seller-list'
 
 const Routing: React.SFC<any> = () => {
   return (
     <Switch>
+      <Route exact path="/seller/form/:id" component={SellerFormPage} />
+      <Route exact path="/seller/form" component={SellerFormPage} />
+      <Route exact path="/seller" component={SellerListPage} />
+
       <Route exact path="/group/form/:id" component={GroupFormPage} />
       <Route exact path="/group/form" component={GroupFormPage} />
       <Route exact path="/group" component={GroupListPage} />

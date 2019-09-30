@@ -7,10 +7,13 @@ import organizationModuleReducer from '@app/store/modules/organization/reducer'
 import { MODULE_NAME as ORGANIZATION_MODULE } from '@app/store/modules/organization/type'
 import groupModuleReducer from '@app/store/modules/group/reducer'
 import { MODULE_NAME as GROUP_MODULE } from '@app/store/modules/group/type'
+import sellerModuleReducer from '@app/store/modules/seller/reducer'
+import { MODULE_NAME as SELLER_MODULE } from '@app/store/modules/seller/type'
 
 export const rootReducer = combineReducers({
   [AUTH_MODULE]: authModuleReducer,
   [ORGANIZATION_MODULE]: organizationModuleReducer,
   [GROUP_MODULE]: groupModuleReducer,
+  [SELLER_MODULE]: sellerModuleReducer,
   routing: routerReducer,
 })

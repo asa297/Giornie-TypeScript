@@ -30,6 +30,8 @@ import {
 import { OrganizationFormBody } from '@app/helpers/form-types/organization-form-type'
 import { WithLoading } from '@app/components/hoc/withLoading'
 import { WithError } from '@app/components/hoc/withError'
+import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 interface MatchParams {
   id: string
 }
@@ -128,7 +130,9 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
                   <Field name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} />
 
                   <FormActionContainer>
-                    <DeleteActionForm title="ยืนยันการลบรายการนี้" loading={this.state.isDeleting} onConfirm={() => this.handleDelete()} />
+                    {isEditMode && (
+                      <DeleteActionForm title="ยืนยันการลบรายการนี้" loading={this.state.isDeleting} onConfirm={() => this.handleDelete()} />
+                    )}
                     <SubmitActionForm loading={this.props.isSummiting} />
                   </FormActionContainer>
                 </form>
@@ -165,6 +169,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default compose(
+  withValidateRole([UserRoleEnum.ADMIN]),
   connect(
     mapStateToProps,
     mapDispatchToProps,
@@ -173,6 +178,7 @@ export default compose(
 
 const FormActionContainer = styled.div`
   display: flex;
+  justify-content: center;
 
   margin-top: 20px;
 `

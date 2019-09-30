@@ -67,7 +67,7 @@ class OrgListPage extends React.Component<OrgListPageProps & RouteComponentProps
   }
 
   async componentDidMount() {
-    await this.props.getOrgsFunction()
+    await this.props.loadOrganizations()
     this.setState({ done: true })
   }
 
@@ -114,7 +114,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getOrgsFunction: () => dispatch(loadOrganizations()),
+    loadOrganizations: () => dispatch(loadOrganizations()),
   }
 }
 

@@ -13,71 +13,66 @@ import { WithLoading } from '@app/components/hoc/withLoading'
 import { TableWrapper } from '@app/components/table/my-table'
 import { SearchInput } from '@app/components/search-input/search.input'
 import { ButtonNew } from '@app/components/button-new/button-new'
-import { loadGroups } from '@app/store/modules/group/action'
-import { getRootGroupState, getGroupList } from '@app/store/modules/group/selector'
+import { getRootSellerState, getSellerList } from '@app/store/modules/seller/selector'
+import { loadSellers } from '@app/store/modules/seller/action'
 
 const columns: ColumnProps<any>[] = [
   {
-    title: 'ชื่อบริษัท',
-    dataIndex: 'org.name',
+    title: 'ชื่อพนักงานขาย',
+    dataIndex: 'seller_name',
     width: '20%',
-    render: (text, record) => {
-      return (
-        <span>
-          {record.org.name} ({record.org.code})
-        </span>
-      )
+    render: text => {
+      return <div>{text}</div>
     },
   },
   {
-    title: 'รหัสกรุ๊ป',
-    dataIndex: 'group_code',
+    title: 'รหัสพนักงานขาย',
+    dataIndex: 'seller_code',
     align: 'center',
     width: '20%',
   },
   {
-    title: 'สติกเกอร์กรุ๊ป',
-    dataIndex: 'group_sticker_number',
-    align: 'center',
-  },
-  {
-    title: 'ชื่อไกด์',
-    dataIndex: 'guide_name',
-    align: 'center',
+    title: 'ค่านํ้าพนักงานขาย (%)',
+    dataIndex: 'seller_com',
+    align: 'right',
+    width: 200,
+    render: text => {
+      return <span>{text}%</span>
+    },
   },
   {
     title: 'หมายเหตุ',
-    dataIndex: 'group_remark',
-    width: '20%',
+    dataIndex: 'seller_remark',
     align: 'center',
+    width: '20%',
   },
   {
     title: 'วันที่แก้ไขล่าสุด',
     dataIndex: 'last_modify_date',
     align: 'center',
-    width: '20%',
+    width: '25%',
     render: text => {
       return <div>{moment(text).format('DD/MM/YYYY HH:MM:SS')}</div>
     },
   },
 ]
 
-class GroupListPage extends React.Component<GroupListPageProps & RouteComponentProps> {
+class SellerListPage extends React.Component<SellerListPageProps & RouteComponentProps> {
   state = {
     done: false,
     keyword: '',
   }
 
   async componentDidMount() {
-    await this.props.loadGroups()
+    await this.props.loadSellers()
     this.setState({ done: true })
   }
 
   render() {
     return (
-      <MainLayout pageName="รายการกรุ๊ป">
+      <MainLayout pageName="รายการคนขาย">
         <WithLoading isLoading={!this.state.done}>
-          <SearchInput placeholder="ค้นหารายการกรุ๊ป" onChange={e => this.setState({ keyword: e.target.value })} />
+          <SearchInput placeholder="ค้นหารายการคนขาย" onChange={e => this.setState({ keyword: e.target.value })} />
           <TableWrapper
             rowKey="_id"
             columns={columns}
@@ -86,28 +81,28 @@ class GroupListPage extends React.Component<GroupListPageProps & RouteComponentP
             bordered
             onRow={(record, index) => {
               return {
-                onClick: () => this.props.history.push(`/group/form/${record._id}`),
+                onClick: () => this.props.history.push(`/seller/form/${record._id}`),
               }
             }}
           />
-          <ButtonNew onClick={() => this.props.history.push('/group/form')} />
+          <ButtonNew onClick={() => this.props.history.push('/seller/form')} />
         </WithLoading>
       </MainLayout>
     )
   }
 }
 
-type GroupListPageProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
+type SellerListPageProps = ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>
 
 const mapStateToProps = state => {
-  const groupRootState = getRootGroupState(state)
-  const groupList = getGroupList(groupRootState)
+  const sellerRootState = getRootSellerState(state)
+  const sellerList = getSellerList(sellerRootState)
 
   const data = key =>
     R.compose(
-      R.filter((v: any) => v.group_code.includes(key) || v.guide_name.includes(key) || v.org.name.includes(key) || v.org.code.includes(key)),
+      R.filter((v: any) => v.seller_name.includes(key) || v.seller_code.includes(key)),
       v => R.values(v),
-    )(groupList)
+    )(sellerList)
 
   return {
     data,
@@ -116,7 +111,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    loadGroups: () => dispatch(loadGroups()),
+    loadSellers: () => dispatch(loadSellers()),
   }
 }
 
@@ -126,4 +121,4 @@ export default compose(
     mapStateToProps,
     mapDispatchToProps,
   ),
-)(GroupListPage)
+)(SellerListPage)

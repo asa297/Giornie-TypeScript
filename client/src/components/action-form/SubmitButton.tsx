@@ -18,6 +18,7 @@ export { SubmitActionForm }
 
 const SubmitButton = styled(Button)`
   width: 100%;
+  max-width: 300px;
   height: 100%;
   background-color: #009688 !important;
   border-color: transparent !important;
