@@ -19,41 +19,43 @@ import { getRootGroupState, getGroupList } from '@app/store/modules/group/select
 const columns: ColumnProps<any>[] = [
   {
     title: 'ชื่อบริษัท',
-    dataIndex: 'org_name',
+    dataIndex: 'org.name',
     width: '20%',
-    render: text => {
-      return <div>{text}</div>
+    render: (text, record) => {
+      return (
+        <span>
+          {record.org.name} ({record.org.code})
+        </span>
+      )
     },
   },
   {
-    title: 'รหัสบริษัท',
-    dataIndex: 'org_code',
+    title: 'รหัสกรุ๊ป',
+    dataIndex: 'group_code',
     align: 'center',
     width: '20%',
   },
   {
-    title: 'คอมมิชชั่นสินค้า A (%)',
-    dataIndex: 'org_com_A',
-    align: 'right',
-    width: 200,
-    render: text => {
-      return <span>{text}%</span>
-    },
+    title: 'สติกเกอร์กรุ๊ป',
+    dataIndex: 'group_sticker_number',
+    align: 'center',
   },
   {
-    title: 'คอมมิชชั่นสินค้า B (%)',
-    dataIndex: 'org_com_B',
-    align: 'right',
-    width: 200,
-    render: text => {
-      return <span>{text}%</span>
-    },
+    title: 'ชื่อไกด์',
+    dataIndex: 'guide_name',
+    align: 'center',
+  },
+  {
+    title: 'หมายเหตุ',
+    dataIndex: 'group_remark',
+    width: '20%',
+    align: 'center',
   },
   {
     title: 'วันที่แก้ไขล่าสุด',
     dataIndex: 'last_modify_date',
     align: 'center',
-    width: '30%',
+    width: '20%',
     render: text => {
       return <div>{moment(text).format('DD/MM/YYYY HH:MM:SS')}</div>
     },

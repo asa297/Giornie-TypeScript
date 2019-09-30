@@ -64,19 +64,19 @@ class GroupPage extends React.Component<GroupFormPageProps & RouteComponentProps
     }
 
     if (isEditMode && groupData && !this.state.setFormDone) {
-      //   this.form.setFieldValue('orgType', orgTypeData.find(org => org.id === organizationData.org_type_id))
-      //   this.form.setFieldValue('orgName', organizationData.org_name)
-      //   this.form.setFieldValue('orgComA', organizationData.org_com_A)
-      //   this.form.setFieldValue('orgComB', organizationData.org_com_B)
-      //   this.form.setFieldValue('orgCode', organizationData.org_code)
-      //   this.setState({ setFormDone: true })
+      this.form.setFieldValue('org', this.props.orgList.find(org => org.id === groupData.org.id))
+      this.form.setFieldValue('groupCode', groupData.group_code)
+      this.form.setFieldValue('groupStickerNumber', groupData.group_sticker_number)
+      this.form.setFieldValue('guideName', groupData.guide_name)
+      this.form.setFieldValue('groupRemark', groupData.group_remark)
+      this.setState({ setFormDone: true })
     }
   }
 
   async handleDelete() {
     this.setState({ isDeleting: true })
     await this.props.deleteGroup(this.state.docId)
-    this.props.history.push('/org')
+    this.props.history.push('/group')
     this.setState({ isDeleting: false })
   }
 
@@ -91,7 +91,7 @@ class GroupPage extends React.Component<GroupFormPageProps & RouteComponentProps
         <WithError isError={isLoadGroupError}>
           <WithLoading isLoading={isLoading}>
             <Formik
-              initialValues={{}}
+              initialValues={null}
               validationSchema={GroupSchema}
               onSubmit={async (values: GroupFormBody) => {
                 if (!this.state.docId) await this.props.createGroup(values)
