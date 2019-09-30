@@ -96,7 +96,7 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
         <WithError isError={isLoadOrgError}>
           <WithLoading isLoading={isLoading}>
             <Formik
-              initialValues={{}}
+              initialValues={null}
               validationSchema={OrganizationSchema}
               onSubmit={async (values: OrganizationFormBody) => {
                 if (!this.state.docId) await this.props.createOrganization(values)
