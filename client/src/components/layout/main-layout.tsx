@@ -31,7 +31,9 @@ const Root = styled(Layout)`
   margin: auto;
   max-width: 1440px;
 
-  height: calc(100vh - 60px);
+  min-height: calc(100vh - 60px);
 
   background: inherit;
+
+  padding: 30px 0;
 `

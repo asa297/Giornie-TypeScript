@@ -77,11 +77,11 @@ class SellerPage extends React.Component<SellerFormPageProps & RouteComponentPro
     const isEditMode = this.state.docId ? true : false
     const sellerData = this.props.seller(this.state.docId)
     const isLoading = isEditMode ? (!sellerData ? true : false) : false
-    const isLoadOrgError = this.props.sellerError['getSeller'] ? true : false
+    const isLoadSellerError = this.props.sellerError['getSeller'] ? true : false
 
     return (
       <MainLayout pageName="คนขาย">
-        <WithError isError={isLoadOrgError}>
+        <WithError isError={isLoadSellerError}>
           <WithLoading isLoading={isLoading}>
             <Formik
               initialValues={null}

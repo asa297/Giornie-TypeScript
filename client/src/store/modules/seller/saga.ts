@@ -50,7 +50,7 @@ function* createSellerTask(action: ReturnType<typeof createSeller>) {
   try {
     const { formBody } = action.payload
     yield put(setIsLoading(true))
-    yield put(setSellerModuleError('createOrganation'))
+    yield put(setSellerModuleError('createSeller'))
 
     const config = yield select(getAuthorizationHeader)
 
