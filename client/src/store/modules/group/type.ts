@@ -1,4 +1,4 @@
-export const MODULE_NAME = 'SELLER_MODULE'
+export const MODULE_NAME = 'GROUP_MODULE'
 
 export const actionTypes = {
   LOAD_GROUPS: `${MODULE_NAME}/LOAD_GROUPS`,
