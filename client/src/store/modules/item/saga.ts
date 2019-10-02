@@ -52,9 +52,13 @@ function* createItemTask(action: ReturnType<typeof createItem>) {
     yield put(setIsLoading(true))
     yield put(setItemModuleError('createItem'))
 
+    let data = new FormData()
+    data.append('file', formBody.item_file)
+    data.append('bodyForm', JSON.stringify(formBody))
+
     const config = yield select(getAuthorizationHeader)
 
-    yield axios.post(`${process.env.REACT_APP_SERVER_URL}/api/item/createItem`, formBody, config).catch(error => {
+    yield axios.post(`${process.env.REACT_APP_SERVER_URL}/api/item/createItem`, data, config).catch(error => {
       throw error.response.data
     })
 

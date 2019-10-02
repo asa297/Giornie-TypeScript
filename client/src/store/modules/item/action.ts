@@ -2,7 +2,7 @@ import { WAIT_FOR_ACTION, ERROR_ACTION } from 'redux-wait-for-action'
 
 import { actionTypes } from '@app/store/modules/item/type'
 import { IItem } from '@app/store/modules/item/reducer'
-import { SellerFormBody } from '@app/helpers/form-types/seller-form-type'
+import { ItemFormBody } from '@app/helpers/form-types/item-form-type'
 
 export const loadItems = () => ({
   type: actionTypes.LOAD_ITEMS,
@@ -22,7 +22,7 @@ export const loadItemsFailure = (error: any) => ({
   error,
 })
 
-export const createItem = (formBody: SellerFormBody) => ({
+export const createItem = (formBody: ItemFormBody) => ({
   type: actionTypes.CREATE_ITEM,
   payload: { formBody },
   [WAIT_FOR_ACTION]: actionTypes.CREATE_ITEM_SUCCESS,
@@ -59,7 +59,7 @@ export const getItemFailure = (error: any) => ({
   error,
 })
 
-export const updateItem = (docId: string, formBody: SellerFormBody) => ({
+export const updateItem = (docId: string, formBody: ItemFormBody) => ({
   type: actionTypes.UPDATE_ITEM,
   payload: {
     docId,

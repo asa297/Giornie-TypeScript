@@ -4,6 +4,9 @@ import * as HttpStatus from 'http-status-codes'
 import { AuthGuard, RequestWithUser } from 'middleware/auth/auth-guard'
 import { RoleGuard, UserRoleEnum } from 'middleware/auth/role-guard'
 import { ItemModel, IItemBody } from 'models/item/item-model'
+import { UploadImageS3 } from 'services/upload-file'
+
+const UploadFileSingle = UploadImageS3.single('file')
 
 module.exports = app => {
   app.get('/api/item/loadItem', AuthGuard, RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]), async (req: RequestWithUser, res: Response) => {
@@ -15,31 +18,38 @@ module.exports = app => {
     }
   })
 
-  app.post('/api/item/createItem', AuthGuard, RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]), async (req: RequestWithUser, res: Response) => {
-    try {
-      const { body, user } = req
+  app.post(
+    '/api/item/createItem',
+    AuthGuard,
+    RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]),
+    UploadFileSingle,
+    async (req: RequestWithUser, res: Response) => {
+      try {
+        console.log('req.file', req.file)
+        // const { body, user } = req
 
-      const found = await ItemModel.find().then(model => model.find(value => value.item_code === body.itemCode))
+        // const found = await ItemModel.find().then(model => model.find(value => value.item_code === body.itemCode))
 
-      if (found) throw 'รหัสสินค้าซํ้า'
+        // if (found) throw 'รหัสสินค้าซํ้า'
 
-      //   const data: IItemBody = {
+        //   const data: IItemBody = {
 
-      //     record_id_by: user._id,
-      //     record_name_by: user.name,
-      //     record_date: new Date(),
-      //     last_modify_by_id: user._id,
-      //     last_modify_by_name: user.name,
-      //     last_modify_date: new Date(),
-      //   }
+        //     record_id_by: user._id,
+        //     record_name_by: user.name,
+        //     record_date: new Date(),
+        //     last_modify_by_id: user._id,
+        //     last_modify_by_name: user.name,
+        //     last_modify_date: new Date(),
+        //   }
 
-      //   await new ItemModel(data).save()
+        //   await new ItemModel(data).save()
 
-      res.send()
-    } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST).send(error)
-    }
-  })
+        res.send()
+      } catch (error) {
+        res.status(HttpStatus.BAD_REQUEST).send(error)
+      }
+    },
+  )
 
   app.get(
     '/api/item/getItem/:docId',

@@ -19,8 +19,9 @@ const SelectInput: React.SFC<any> = ({
         showSearch
         optionFilterProp="children"
         filterOption={(input, option) =>
-          option.props.children
-            .toString()
+          options
+            .find(item => item.id === option.props.value)
+            .label.toString()
             .toLowerCase()
             .indexOf(input.toLowerCase()) >= 0
         }
@@ -44,12 +45,14 @@ const SelectWrapper = styled(Select)<{ isError: boolean }>`
 
   .ant-select-selection__rendered {
     margin: 0px;
-  }
-  .ant-select-selection--single {
+    padding: 0px 20px;
+    height: 70px;
+
     display: flex;
     align-items: center;
-
-    padding: 35px 20px;
+  }
+  .ant-select-selection--single {
+    height: 70px;
   }
 
   .ant-select-selection {
@@ -57,6 +60,10 @@ const SelectWrapper = styled(Select)<{ isError: boolean }>`
   }
 
   .ant-select-selection-selected-value {
+    font-size: 20px;
+  }
+
+  .ant-select-search__field {
     font-size: 20px;
   }
 `

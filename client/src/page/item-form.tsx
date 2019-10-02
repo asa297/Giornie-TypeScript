@@ -92,6 +92,7 @@ class ItemPage extends React.Component<ItemFormPageProps & RouteComponentProps<M
 
       this.form.setFieldError('item_image', null)
       this.form.setFieldValue('item_image', imageBase64)
+      this.form.setFieldValue('item_file', file.originFileObj as File)
     }
   }
 

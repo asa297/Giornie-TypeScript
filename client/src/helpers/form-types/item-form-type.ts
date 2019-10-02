@@ -1,5 +1,6 @@
 export interface ItemFormBody {
   item_image: string
+  item_file?: File
   item_type: {
     id: number
     label: string

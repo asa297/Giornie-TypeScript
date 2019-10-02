@@ -6,6 +6,7 @@ import * as http from 'http'
 import { serverInitialEnvironment } from 'config/server'
 import { initialFirebaseAdmin } from 'services/firebase'
 import { initialDatabase } from 'services/database'
+// import { initialAWS } from 'services/upload-file'
 
 require('dotenv').config()
 
@@ -21,6 +22,7 @@ app.use(bodyParser.json())
 
 initialFirebaseAdmin()
 initialDatabase()
+// initialAWS()
 
 require('models/index')
 require('modules/module')(app)
