@@ -8,8 +8,6 @@ const UploadImageInput = ({
   value,
   ...rest
 }) => {
-  const error = (touched[field.name] && errors[field.name]) || errors[field.name] ? 1 : 0
-
   return (
     <React.Fragment>
       <UploadWrapper
@@ -19,7 +17,6 @@ const UploadImageInput = ({
         customRequest={(option: any) => {
           option.onSuccess('OK')
         }}
-        // onChange={beforeUpload}
         {...rest}
       >
         {field.value ? (

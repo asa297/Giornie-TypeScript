@@ -20,7 +20,6 @@ export const WithError: React.SFC<withLoadingIProps> = props => {
 
 const Root = styled.div`
   width: 100%;
-  height: 100%;
 
   display: flex;
   justify-content: center;

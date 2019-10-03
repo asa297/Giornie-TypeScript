@@ -102,7 +102,7 @@ const mapStateToProps = state => {
 
   const data = key =>
     R.compose(
-      R.filter((v: any) => v.seller_name.includes(key) || v.seller_code.includes(key)),
+      R.filter((v: any) => v.item_code.includes(key) || v.item_name.includes(key)),
       v => R.values(v),
     )(itemList)
 

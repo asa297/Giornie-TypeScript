@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { RouteComponentProps } from 'react-router-dom'
 import * as R from 'ramda'
 import { UploadFile } from 'antd/lib/upload/interface'
+import { message } from 'antd'
 
 import { MainLayout } from '@app/components/layout/main-layout'
 import { TextInput } from '@app/components/input-field/text-input'
@@ -59,14 +60,19 @@ class ItemPage extends React.Component<ItemFormPageProps & RouteComponentProps<M
     const itemData = this.props.item(this.state.docId)
 
     if (itemError['createItem']) {
-      this.form.setFieldError('orgCode', itemError['createItem'].toString())
+      this.form.setFieldError('item_code', itemError['createItem'].toString())
     }
 
     if (isEditMode && itemData && !this.state.setFormDone) {
-      this.form.setFieldValue('sellerName', itemData.seller_name)
-      this.form.setFieldValue('sellerCode', itemData.seller_code)
-      this.form.setFieldValue('sellerCom', itemData.seller_com)
-      this.form.setFieldValue('sellerRemark', itemData.seller_remark)
+      this.form.setFieldValue('item_image', itemData.item_image_url)
+      this.form.setFieldValue('item_type', itemTypeData.find(type => type.id === itemData.item_type.item_type_id))
+      this.form.setFieldValue('item_name', itemData.item_name)
+      this.form.setFieldValue('item_code', itemData.item_code)
+      this.form.setFieldValue('item_factory', itemData.item_factory)
+      this.form.setFieldValue('item_color', itemData.item_color)
+      this.form.setFieldValue('item_skin', itemData.item_skin)
+      this.form.setFieldValue('item_price', itemData.item_price)
+      this.form.setFieldValue('item_remark', itemData.item_remark)
 
       this.setState({ setFormDone: true })
     }
@@ -84,13 +90,12 @@ class ItemPage extends React.Component<ItemFormPageProps & RouteComponentProps<M
     const checkImageSize = checkFileSize(file.originFileObj as File, 2 * 1024 * 1024)
 
     if (!checkImage.isImage) {
-      this.form.setFieldError('item_image', 'กรุณาอัพโหลดรูปเท่านั้น')
+      message.error('กรุณาอัพโหลดรูปเท่านั้น')
     } else if (!checkImageSize) {
-      this.form.setFieldError('item_image', 'ขนาดรูปไม่เกิน 2 MB')
+      message.error('ขนาดรูปไม่เกิน 2 MB')
     } else {
       const imageBase64 = await getBase64Image(file.originFileObj as File)
 
-      this.form.setFieldError('item_image', null)
       this.form.setFieldValue('item_image', imageBase64)
       this.form.setFieldValue('item_file', file.originFileObj as File)
     }
@@ -139,7 +144,7 @@ class ItemPage extends React.Component<ItemFormPageProps & RouteComponentProps<M
                   <Field name="item_name" component={TextInput} value={props.values.item_name} onChange={props.handleChange} />
 
                   <LabelField isRequired>รหัสสินค้า</LabelField>
-                  <Field name="item_code" component={TextInput} value={props.values.item_code} onChange={props.handleChange} />
+                  <Field name="item_code" component={TextInput} value={props.values.item_code} onChange={props.handleChange} disabled={isEditMode} />
 
                   <LabelField>โรงงาน</LabelField>
                   <Field name="item_factory" component={TextInput} value={props.values.item_factory} onChange={props.handleChange} />

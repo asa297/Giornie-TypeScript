@@ -127,7 +127,7 @@ class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<Mat
                   <Field type="number" name="orgComB" component={TextInput} value={props.values.orgComB} onChange={props.handleChange} />
 
                   <LabelField isRequired>รหัสบริษัท</LabelField>
-                  <Field name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} />
+                  <Field name="orgCode" component={TextInput} value={props.values.orgCode} onChange={props.handleChange} disabled={isEditMode} />
 
                   <FormActionContainer>
                     {isEditMode && (

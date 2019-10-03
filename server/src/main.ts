@@ -2,11 +2,11 @@ import * as express from 'express'
 import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import * as http from 'http'
+import * as aws from 'aws-sdk'
 
 import { serverInitialEnvironment } from 'config/server'
 import { initialFirebaseAdmin } from 'services/firebase'
 import { initialDatabase } from 'services/database'
-// import { initialAWS } from 'services/upload-file'
 
 require('dotenv').config()
 
@@ -22,7 +22,12 @@ app.use(bodyParser.json())
 
 initialFirebaseAdmin()
 initialDatabase()
-// initialAWS()
+
+aws.config.update({
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+  region: process.env.AWS_S3_REGION,
+})
 
 require('models/index')
 require('modules/module')(app)

@@ -113,7 +113,7 @@ class GroupPage extends React.Component<GroupFormPageProps & RouteComponentProps
                   />
 
                   <LabelField isRequired>รหัสกรุ๊ป</LabelField>
-                  <Field name="groupCode" component={TextInput} value={props.values.groupCode} onChange={props.handleChange} />
+                  <Field name="groupCode" component={TextInput} value={props.values.groupCode} onChange={props.handleChange} disabled={isEditMode} />
 
                   <LabelField isRequired>หมายเลขสติกเกอร์</LabelField>
                   <Field name="groupStickerNumber" component={TextInput} value={props.values.groupStickerNumber} onChange={props.handleChange} />

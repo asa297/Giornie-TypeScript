@@ -8,16 +8,8 @@ const fileFilter = (req, file, cb) => {
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
     cb(null, true)
   } else {
-    cb(new Error('Invalid file type, only JPEG and PNG is allowed!'), false)
+    cb(new Error('Invalid file type'), false)
   }
-}
-
-export const initialAWS = () => {
-  aws.config.update({
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-    region: process.env.AWS_RESGION,
-  })
 }
 
 export const UploadImageS3 = multer({
@@ -36,3 +28,18 @@ export const UploadImageS3 = multer({
     },
   }),
 })
+
+export const DeleteImageFileS3 = (key: string) => {
+  return new Promise((resolve, reject) => {
+    s3.deleteObject(
+      {
+        Bucket: process.env.S3_BUCKET,
+        Key: key,
+      },
+      (err, data) => {
+        if (err) reject(err)
+        resolve(data)
+      },
+    )
+  })
+}

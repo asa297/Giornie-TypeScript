@@ -24,7 +24,6 @@ const InputWrapper = styled(Input)<{ error: boolean }>`
 
     border: ${props => (props.error ? '1px solid red' : '1px solid #d9d9d9')};
     font-size: 20px;
-    background-color: #f7f7f7;
     padding: 0px 20px;
     height: 70px;
   }

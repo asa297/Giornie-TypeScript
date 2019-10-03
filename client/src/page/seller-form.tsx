@@ -98,7 +98,13 @@ class SellerPage extends React.Component<SellerFormPageProps & RouteComponentPro
                   <Field name="sellerName" component={TextInput} value={props.values.sellerName} onChange={props.handleChange} />
 
                   <LabelField isRequired>รหัสพนักงานขาย</LabelField>
-                  <Field name="sellerCode" component={TextInput} value={props.values.sellerCode} onChange={props.handleChange} />
+                  <Field
+                    name="sellerCode"
+                    component={TextInput}
+                    value={props.values.sellerCode}
+                    onChange={props.handleChange}
+                    disabled={isEditMode}
+                  />
 
                   <LabelField isRequired>ค่านํ้าพนักงานขาย</LabelField>
                   <Field type="number" name="sellerCom" component={TextInput} value={props.values.sellerCom} onChange={props.handleChange} />

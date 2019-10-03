@@ -3,10 +3,21 @@ import { fromJS } from 'immutable'
 import { actionTypes } from '@app/store/modules/item/type'
 
 export interface IItem {
-  seller_name: String
-  seller_code: String
-  seller_com: Number
-  seller_remark?: String
+  item_type: {
+    item_type_id: Number
+    item_type_name: String
+  }
+  item_code: String
+  item_name: String
+  item_factory?: String
+  item_color?: String
+  item_skin?: String
+  item_price: Number
+  item_qty_HO?: Number
+  item_qty_Shop1?: Number
+  item_remark: String
+  item_image_url: String
+
   last_modify_date: Date
 }
 

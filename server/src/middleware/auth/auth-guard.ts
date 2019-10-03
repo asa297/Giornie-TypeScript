@@ -6,8 +6,11 @@ import { UserModel } from 'models/user/user-model'
 import { IUser } from 'models/user/user-model'
 
 export interface RequestWithUser extends Request {
-  user?: IUser
-  file?: File
+  user: IUser
+}
+
+export interface RequestWithUserAndUploadFile extends RequestWithUser {
+  file: any
 }
 
 export const AuthGuard = (req: RequestWithUser, res: Response, next) => {
