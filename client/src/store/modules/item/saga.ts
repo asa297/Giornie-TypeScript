@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { put, takeLeading, select } from 'redux-saga/effects'
-import * as R from 'ramda'
 
 import { actionTypes } from '@app/store/modules/item/type'
 import {
@@ -24,7 +23,6 @@ import {
 } from '@app/store/modules/item/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
 import { IItem } from '@app/store/modules/item/reducer'
-import { getRootItemState, getItemListById } from '@app/store/modules/item/selector'
 
 function* loadItemsTask(action: ReturnType<typeof loadItems>) {
   try {

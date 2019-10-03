@@ -6,6 +6,10 @@ import { useSelector } from 'react-redux'
 import { getRootAuthState, getUserInfo } from '@app/store/modules/auth/selector'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 
+export interface UserRoleProps {
+  userRole: UserRoleEnum
+}
+
 export const withValidateRole = (permisstionRole: Array<UserRoleEnum>) => Component => {
   return props => {
     const user = useSelector(
@@ -15,8 +19,10 @@ export const withValidateRole = (permisstionRole: Array<UserRoleEnum>) => Compon
       ),
     )
 
+    const userRole = permisstionRole.find(role => user.role === role)
+
     if (!user) return <Redirect to="/login" />
-    if (!permisstionRole.find(role => user.role === role)) return <Redirect to="/" />
-    return <Component {...props} />
+    if (!userRole) return <Redirect to="/" />
+    return <Component {...props} userRole={userRole} />
   }
 }

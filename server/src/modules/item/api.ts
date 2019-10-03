@@ -7,26 +7,31 @@ import { ItemModel, IItemBody } from 'models/item/item-model'
 import { DeleteImageFileS3 } from 'services/aws'
 
 module.exports = app => {
-  app.get('/api/item/loadItem', AuthGuard, RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]), async (req: RequestWithUser, res: Response) => {
-    try {
-      const items = await ItemModel.find(
-        {},
-        {
-          item_qty_HO: 0,
-          item_qty_Shop1: 0,
-          item_image_key: 0,
-          record_id_by: 0,
-          record_name_by: 0,
-          record_date: 0,
-          last_modify_by_id: 0,
-          last_modify_by_name: 0,
-        },
-      )
-      res.send(items)
-    } catch (error) {
-      res.status(HttpStatus.BAD_REQUEST).send(error.message)
-    }
-  })
+  app.get(
+    '/api/item/loadItem',
+    AuthGuard,
+    RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT, UserRoleEnum.STAFF]),
+    async (req: RequestWithUser, res: Response) => {
+      try {
+        const items = await ItemModel.find(
+          {},
+          {
+            item_qty_HO: 0,
+            item_qty_Shop1: 0,
+            item_image_key: 0,
+            record_id_by: 0,
+            record_name_by: 0,
+            record_date: 0,
+            last_modify_by_id: 0,
+            last_modify_by_name: 0,
+          },
+        )
+        res.send(items)
+      } catch (error) {
+        res.status(HttpStatus.BAD_REQUEST).send(error.message)
+      }
+    },
+  )
 
   app.post('/api/item/createItem', AuthGuard, RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]), async (req: RequestWithUser, res: Response) => {
     try {
@@ -100,7 +105,7 @@ module.exports = app => {
   app.put(
     '/api/item/updateItem/:docId',
     AuthGuard,
-    RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]),
+    RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT, UserRoleEnum.STAFF]),
     async (req: RequestWithUser, res: Response) => {
       try {
         const { docId } = req.params

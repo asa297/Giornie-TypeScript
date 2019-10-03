@@ -7,7 +7,7 @@ import { ColumnProps } from 'antd/lib/table'
 import { RouteComponentProps } from 'react-router-dom'
 
 import { MainLayout } from '@app/components/layout/main-layout'
-import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { withValidateRole, UserRoleProps } from '@app/components/hoc/withValidateRole'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 import { loadOrganizations } from '@app/store/modules/organization/action'
 import { getRootOrganizationState, getOrganizationList } from '@app/store/modules/organization/selector'
@@ -60,7 +60,7 @@ const columns: ColumnProps<any>[] = [
   },
 ]
 
-class OrgListPage extends React.Component<OrgListPageProps & RouteComponentProps> {
+class OrgListPage extends React.Component<OrgListPageProps & RouteComponentProps & UserRoleProps> {
   state = {
     done: false,
     keyword: '',

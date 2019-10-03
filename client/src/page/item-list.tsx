@@ -7,40 +7,36 @@ import { ColumnProps } from 'antd/lib/table'
 import { RouteComponentProps } from 'react-router-dom'
 
 import { MainLayout } from '@app/components/layout/main-layout'
-import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { withValidateRole, UserRoleProps } from '@app/components/hoc/withValidateRole'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 import { WithLoading } from '@app/components/hoc/withLoading'
 import { TableWrapper } from '@app/components/table/my-table'
 import { SearchInput } from '@app/components/search-input/search.input'
 import { ButtonNew } from '@app/components/button-new/button-new'
-import { getRootSellerState, getSellerList } from '@app/store/modules/seller/selector'
-import { loadSellers } from '@app/store/modules/seller/action'
 import { getRootItemState, getItemList } from '@app/store/modules/item/selector'
 import { loadItems } from '@app/store/modules/item/action'
 
 const columns: ColumnProps<any>[] = [
   {
-    title: 'ชื่อพนักงานขาย',
-    dataIndex: 'seller_name',
+    title: 'ชื่อสินค้า',
+    dataIndex: 'item_name',
     width: '20%',
-    render: text => {
-      return <div>{text}</div>
-    },
   },
   {
-    title: 'รหัสพนักงานขาย',
-    dataIndex: 'seller_code',
+    title: 'รหัสสินค้า',
+    dataIndex: 'item_code',
     align: 'center',
     width: '20%',
   },
   {
-    title: 'ค่านํ้าพนักงานขาย (%)',
-    dataIndex: 'seller_com',
-    align: 'right',
-    width: 200,
-    render: text => {
-      return <span>{text}%</span>
-    },
+    title: 'สีสินค้า',
+    dataIndex: 'item_color',
+    align: 'center',
+  },
+  {
+    title: 'หนังสินค้า',
+    dataIndex: 'item_skin',
+    align: 'center',
   },
   {
     title: 'หมายเหตุ',
@@ -59,7 +55,7 @@ const columns: ColumnProps<any>[] = [
   },
 ]
 
-class ItemListPage extends React.Component<ItemListPageProps & RouteComponentProps> {
+class ItemListPage extends React.Component<ItemListPageProps & RouteComponentProps & UserRoleProps> {
   state = {
     done: false,
     keyword: '',
@@ -87,7 +83,7 @@ class ItemListPage extends React.Component<ItemListPageProps & RouteComponentPro
               }
             }}
           />
-          <ButtonNew onClick={() => this.props.history.push('/item/form')} />
+          {this.props.userRole !== UserRoleEnum.STAFF && <ButtonNew onClick={() => this.props.history.push('/item/form')} />}
         </WithLoading>
       </MainLayout>
     )
@@ -118,7 +114,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default compose(
-  withValidateRole([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]),
+  withValidateRole([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT, UserRoleEnum.STAFF]),
   connect(
     mapStateToProps,
     mapDispatchToProps,

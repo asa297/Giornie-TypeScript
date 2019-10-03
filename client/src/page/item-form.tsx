@@ -15,7 +15,7 @@ import { SubmitActionForm } from '@app/components/action-form/SubmitButton'
 import { DeleteActionForm } from '@app/components/action-form/DeleteButton'
 import { WithLoading } from '@app/components/hoc/withLoading'
 import { WithError } from '@app/components/hoc/withError'
-import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { withValidateRole, UserRoleProps } from '@app/components/hoc/withValidateRole'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 import { getRootItemState, getItemError, getItemListById, getItemIsLoading } from '@app/store/modules/item/selector'
 import { createItem, updateItem, getItem, deleteItem, setItemModuleError } from '@app/store/modules/item/action'
@@ -30,7 +30,7 @@ interface MatchParams {
   id: string
 }
 
-class ItemPage extends React.Component<ItemFormPageProps & RouteComponentProps<MatchParams>> {
+class ItemPage extends React.Component<ItemFormPageProps & RouteComponentProps<MatchParams> & UserRoleProps> {
   form: Formik<{}>
 
   state = {
@@ -162,10 +162,10 @@ class ItemPage extends React.Component<ItemFormPageProps & RouteComponentProps<M
                   <Field name="item_remark" component={TextInput} value={props.values.item_remark} onChange={props.handleChange} />
 
                   <FormActionContainer>
-                    {isEditMode && (
+                    {isEditMode && this.props.userRole !== UserRoleEnum.STAFF && (
                       <DeleteActionForm title="ยืนยันการลบรายการนี้" loading={this.state.isDeleting} onConfirm={() => this.handleDelete()} />
                     )}
-                    <SubmitActionForm loading={this.props.isSummiting} />
+                    {this.props.userRole !== UserRoleEnum.STAFF && <SubmitActionForm loading={this.props.isSummiting} />}
                   </FormActionContainer>
                 </form>
               )}
@@ -201,7 +201,7 @@ const mapDispatchToProps = dispatch => {
 }
 
 export default compose(
-  withValidateRole([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT]),
+  withValidateRole([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT, UserRoleEnum.STAFF]),
   connect(
     mapStateToProps,
     mapDispatchToProps,

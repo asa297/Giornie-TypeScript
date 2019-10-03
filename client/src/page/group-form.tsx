@@ -20,14 +20,14 @@ import { GroupSchema } from '@app/helpers/validators/group-validator'
 import { GroupFormBody } from '@app/helpers/form-types/group-form-type'
 import { loadOrganizationsSelection } from '@app/store/modules/organization/action'
 import { getRootOrganizationState, getOrganizationOption } from '@app/store/modules/organization/selector'
-import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { withValidateRole, UserRoleProps } from '@app/components/hoc/withValidateRole'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 
 interface MatchParams {
   id: string
 }
 
-class GroupPage extends React.Component<GroupFormPageProps & RouteComponentProps<MatchParams>> {
+class GroupPage extends React.Component<GroupFormPageProps & RouteComponentProps<MatchParams> & UserRoleProps> {
   form: Formik<{}>
 
   state = {

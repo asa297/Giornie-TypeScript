@@ -30,13 +30,13 @@ import {
 import { OrganizationFormBody } from '@app/helpers/form-types/organization-form-type'
 import { WithLoading } from '@app/components/hoc/withLoading'
 import { WithError } from '@app/components/hoc/withError'
-import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { withValidateRole, UserRoleProps } from '@app/components/hoc/withValidateRole'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 interface MatchParams {
   id: string
 }
 
-class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<MatchParams>> {
+class OrgPage extends React.Component<OrgFormPageProps & RouteComponentProps<MatchParams> & UserRoleProps> {
   form: Formik<{}>
 
   state = {

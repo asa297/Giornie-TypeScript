@@ -1,6 +1,5 @@
 import axios from 'axios'
 import { put, takeLeading, select } from 'redux-saga/effects'
-import { push } from 'react-router-redux'
 
 import { actionTypes } from '@app/store/modules/group/type'
 import {

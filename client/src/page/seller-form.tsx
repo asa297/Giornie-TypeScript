@@ -13,7 +13,7 @@ import { SubmitActionForm } from '@app/components/action-form/SubmitButton'
 import { DeleteActionForm } from '@app/components/action-form/DeleteButton'
 import { WithLoading } from '@app/components/hoc/withLoading'
 import { WithError } from '@app/components/hoc/withError'
-import { withValidateRole } from '@app/components/hoc/withValidateRole'
+import { withValidateRole, UserRoleProps } from '@app/components/hoc/withValidateRole'
 import { UserRoleEnum } from '@app/store/modules/auth/reducer'
 import { getRootSellerState, getSellerError, getSellerListById, getSellerIsLoading } from '@app/store/modules/seller/selector'
 import { createSeller, updateSeller, getSeller, deleteSeller, setSellerModuleError } from '@app/store/modules/seller/action'
@@ -23,7 +23,7 @@ interface MatchParams {
   id: string
 }
 
-class SellerPage extends React.Component<SellerFormPageProps & RouteComponentProps<MatchParams>> {
+class SellerPage extends React.Component<SellerFormPageProps & RouteComponentProps<MatchParams> & UserRoleProps> {
   form: Formik<{}>
 
   state = {
