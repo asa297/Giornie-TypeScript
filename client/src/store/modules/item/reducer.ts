@@ -16,6 +16,7 @@ export interface IItem {
   item_qty_HO?: Number
   item_qty_Shop1?: Number
   item_remark: String
+  item_image_key: String
   item_image_url: String
 
   last_modify_date: Date

@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { put, takeLeading, select } from 'redux-saga/effects'
+import * as R from 'ramda'
 
 import { actionTypes } from '@app/store/modules/item/type'
 import {
@@ -23,6 +24,7 @@ import {
 } from '@app/store/modules/item/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
 import { IItem } from '@app/store/modules/item/reducer'
+import { getRootItemState, getItemListById } from '@app/store/modules/item/selector'
 
 function* loadItemsTask(action: ReturnType<typeof loadItems>) {
   try {
@@ -54,18 +56,20 @@ function* createItemTask(action: ReturnType<typeof createItem>) {
 
     const config = yield select(getAuthorizationHeader)
 
-    let uploadFormData = new FormData()
-    uploadFormData.append('item_file', formBody.item_file)
+    if (formBody.item_file) {
+      let uploadFormData = new FormData()
+      uploadFormData.append('item_file', formBody.item_file)
 
-    const uploadData = yield axios
-      .post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, uploadFormData, config)
-      .then(res => res.data)
-      .catch(error => {
-        throw error.response.data
-      })
+      const uploadData = yield axios
+        .post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, uploadFormData, config)
+        .then(res => res.data)
+        .catch(error => {
+          throw error.response.data
+        })
 
-    formBody.item_image_key = uploadData.key
-    formBody.item_image_url = uploadData.location
+      formBody.item_image_key = uploadData.key
+      formBody.item_image_url = uploadData.location
+    }
 
     yield axios.post(`${process.env.REACT_APP_SERVER_URL}/api/item/createItem`, formBody, config).catch(error => {
       throw error.response.data
@@ -109,6 +113,21 @@ function* updateItemTask(action: ReturnType<typeof updateItem>) {
     yield put(setIsLoading(true))
 
     const config = yield select(getAuthorizationHeader)
+
+    if (formBody.item_file) {
+      let uploadFormData = new FormData()
+      uploadFormData.append('item_file', formBody.item_file)
+
+      const uploadData = yield axios
+        .post(`${process.env.REACT_APP_SERVER_URL}/api/upload`, uploadFormData, config)
+        .then(res => res.data)
+        .catch(error => {
+          throw error.response.data
+        })
+
+      formBody.item_image_key = uploadData.key
+      formBody.item_image_url = uploadData.location
+    }
 
     yield axios.put(`${process.env.REACT_APP_SERVER_URL}/api/item/updateItem/${docId}`, formBody, config).catch(error => {
       throw error.response.data

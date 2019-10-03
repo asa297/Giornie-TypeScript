@@ -11,8 +11,8 @@ interface IItemBody {
   item_color?: String
   item_skin?: String
   item_price: Number
-  item_qty_HO: Number
-  item_qty_Shop1: Number
+  item_qty_HO?: Number
+  item_qty_Shop1?: Number
   item_remark?: String
   item_image_url?: String
   item_image_key?: String
