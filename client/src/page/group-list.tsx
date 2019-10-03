@@ -5,6 +5,7 @@ import * as R from 'ramda'
 import moment from 'moment'
 import { ColumnProps } from 'antd/lib/table'
 import { RouteComponentProps } from 'react-router-dom'
+import { Avatar } from 'antd'
 
 import { MainLayout } from '@app/components/layout/main-layout'
 import { withValidateRole, UserRoleProps } from '@app/components/hoc/withValidateRole'
@@ -15,8 +16,17 @@ import { SearchInput } from '@app/components/search-input/search.input'
 import { ButtonNew } from '@app/components/button-new/button-new'
 import { loadGroups } from '@app/store/modules/group/action'
 import { getRootGroupState, getGroupList } from '@app/store/modules/group/selector'
+import RussiaIcon from '@app/assets/icons/russia.png'
+import ChinaIcon from '@app/assets/icons/china.png'
 
 const columns: ColumnProps<any>[] = [
+  {
+    title: '',
+    dataIndex: 'org.type_id',
+    render: text => {
+      return <Avatar src={text === 1 ? RussiaIcon : text === 2 ? ChinaIcon : null} />
+    },
+  },
   {
     title: 'ชื่อบริษัท',
     dataIndex: 'org.name',
