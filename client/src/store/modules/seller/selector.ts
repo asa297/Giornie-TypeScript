@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable'
+import * as R from 'ramda'
 
-import { ISellerState } from '@app/store/modules/seller/reducer'
+import { ISellerState, ISellerSelection } from '@app/store/modules/seller/reducer'
 import { MODULE_NAME } from '@app/store/modules/seller/type'
 import { get } from '@app/store/modules/helpers/ramda'
 
@@ -11,3 +12,22 @@ export const getSellerErrorText = (errorKey: string) => get<ISellerState['error'
 
 export const getSellerList = get<ISellerState['data']['list']>(`data.list`)
 export const getSellerListById = (docId: string) => get<ISellerState['data']['list']['']>(`data.list.${docId}`)
+export const getSellerSelectionList = get<ISellerState['data']['list_selection']>(`data.list_selection`)
+export const getSellerOption = state => {
+  const groupSelectionList = getSellerSelectionList(state)
+  const groupOption = R.compose(
+    R.map((v: ISellerSelection) => {
+      return {
+        id: v._id,
+        label: `${v.seller_name} (${v.seller_code})`,
+        value: {
+          id: v._id,
+          label: `${v.seller_name} (${v.seller_code})`,
+        },
+      }
+    }),
+    R.values,
+  )(groupSelectionList)
+
+  return groupOption
+}

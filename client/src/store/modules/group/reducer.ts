@@ -3,22 +3,32 @@ import { fromJS } from 'immutable'
 import { actionTypes } from '@app/store/modules/group/type'
 
 export interface IGroup {
-  group_code: String
-  group_sticker_number: String
-  group_remark: String
-  guide_name: String
+  group_code: string
+  group_sticker_number: string
+  group_remark: string
+  guide_name: string
   org: {
-    id: String
-    name: String
-    type_id: Number
-    type_name: String
-    code: String
+    id: string
+    name: string
+    type_id: number
+    type_name: string
+    code: string
   }
-  record_id_by: String
-  record_name_by: String
-  record_date: Date
-  last_modify_by_id: String
-  last_modify_by_name: String
+  last_modify_date: Date
+}
+
+export interface IGroupSelection {
+  _id: string
+  group_code: string
+  group_sticker_number: string
+  guide_name: string
+  org: {
+    id: string
+    name: string
+    type_id: number
+    type_name: string
+    code: string
+  }
   last_modify_date: Date
 }
 
@@ -33,6 +43,9 @@ export interface IGroupState {
     list: {
       [id: string]: IGroup
     }
+    list_selection: {
+      [id: string]: IGroupSelection
+    }
   }
 }
 
@@ -41,6 +54,7 @@ const initState: IGroupState = {
   isLoading: false,
   data: {
     list: {},
+    list_selection: {},
   },
 }
 
@@ -48,9 +62,22 @@ export default (state = fromJS(initState), action) => {
   switch (action.type) {
     case actionTypes.LOAD_GROUPS:
       return state.setIn(['data', 'list'], fromJS({}))
+    case actionTypes.LOAD_GROUPS_SELECTION:
+      return state.setIn(['data', 'list_selection'], fromJS({}))
     case actionTypes.LOAD_GROUPS_SUCCESS:
     case actionTypes.GET_GROUP_SUCCESS:
       return state.updateIn(['data', 'list'], list => {
+        const _list = list.toJS()
+        const { orgData } = action.payload
+
+        orgData.forEach(element => {
+          _list[element._id] = element
+        })
+
+        return fromJS(_list)
+      })
+    case actionTypes.LOAD_GROUPS_SELECTION_SUCCESS:
+      return state.updateIn(['data', 'list_selection'], list => {
         const _list = list.toJS()
         const { orgData } = action.payload
 

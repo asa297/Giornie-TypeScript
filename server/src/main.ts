@@ -3,6 +3,7 @@ import * as bodyParser from 'body-parser'
 import * as cors from 'cors'
 import * as http from 'http'
 import * as aws from 'aws-sdk'
+import * as socket from 'socket.io'
 
 import { serverInitialEnvironment } from 'config/server'
 import { initialFirebaseAdmin } from 'services/firebase'
@@ -12,6 +13,7 @@ require('dotenv').config()
 
 const app = express()
 const server = http.createServer(app)
+const io = socket(server)
 
 const serverCred = serverInitialEnvironment()
 
@@ -31,6 +33,7 @@ aws.config.update({
 
 require('models/index')
 require('modules/module')(app)
+require('services/socket')(io)
 
 server.listen(serverCred.PORT, () => {
   console.log(`> Ready on PORT ${serverCred.PORT}`)

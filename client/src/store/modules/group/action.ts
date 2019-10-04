@@ -2,6 +2,7 @@ import { WAIT_FOR_ACTION, ERROR_ACTION } from 'redux-wait-for-action'
 
 import { actionTypes } from '@app/store/modules/group/type'
 import { OrganizationFormBody } from '@app/helpers/form-types/organization-form-type'
+import { IGroupSelection } from '@app/store/modules/group/reducer'
 
 export const loadGroups = () => ({
   type: actionTypes.LOAD_GROUPS,
@@ -92,6 +93,24 @@ export const deleteGroupSuccess = () => ({
 
 export const deleteGroupFailure = (error: any) => ({
   type: actionTypes.DELETE_GROUP_FAILURE,
+  error,
+})
+
+export const loadGroupsSelection = () => ({
+  type: actionTypes.LOAD_GROUPS_SELECTION,
+  [WAIT_FOR_ACTION]: actionTypes.LOAD_GROUPS_SELECTION_SUCCESS,
+  [ERROR_ACTION]: actionTypes.LOAD_GROUPS_SELECTION_FAILURE,
+})
+
+export const loadGroupsSelectionSuccess = (orgData: Array<IGroupSelection>) => ({
+  type: actionTypes.LOAD_GROUPS_SELECTION_SUCCESS,
+  payload: {
+    orgData,
+  },
+})
+
+export const loadGroupsSelectionFailure = (error: any) => ({
+  type: actionTypes.LOAD_GROUPS_SELECTION_FAILURE,
   error,
 })
 

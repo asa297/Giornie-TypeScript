@@ -117,4 +117,21 @@ module.exports = app => {
       }
     },
   )
+
+  app.get(
+    '/api/seller/loadSellerSelection',
+    AuthGuard,
+    RoleGuard([UserRoleEnum.ADMIN, UserRoleEnum.ACCOUNT, UserRoleEnum.STAFF]),
+    async (req: RequestWithUser, res: Response) => {
+      try {
+        const sellers = await SellerModel.find(
+          {},
+          { seller_com: 0, record_id_by: 0, record_name_by: 0, record_date: 0, last_modify_by_id: 0, last_modify_by_name: 0 },
+        )
+        res.send(sellers)
+      } catch (error) {
+        res.status(HttpStatus.BAD_REQUEST).send(error.message)
+      }
+    },
+  )
 }

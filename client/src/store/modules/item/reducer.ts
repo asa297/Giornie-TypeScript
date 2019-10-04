@@ -4,20 +4,20 @@ import { actionTypes } from '@app/store/modules/item/type'
 
 export interface IItem {
   item_type: {
-    item_type_id: Number
-    item_type_name: String
+    item_type_id: number
+    item_type_name: string
   }
-  item_code: String
-  item_name: String
-  item_factory?: String
-  item_color?: String
-  item_skin?: String
-  item_price: Number
-  item_qty_HO?: Number
-  item_qty_Shop1?: Number
-  item_remark: String
-  item_image_key: String
-  item_image_url: String
+  item_code: string
+  item_name: string
+  item_factory?: string
+  item_color?: string
+  item_skin?: string
+  item_price: number
+  item_qty_HO?: number
+  item_qty_Shop1?: number
+  item_remark: string
+  item_image_key: string
+  item_image_url: string
 
   last_modify_date: Date
 }

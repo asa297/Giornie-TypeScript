@@ -8,11 +8,11 @@ export enum UserRoleEnum {
   STAFF = 3,
 }
 export interface IUser {
-  _id: String
-  email: String
-  name: String
-  role: Number
-  role_description: String
+  _id: string
+  email: string
+  name: string
+  role: number
+  role_description: string
 }
 export interface UserInfo {
   userInfo?: IUser

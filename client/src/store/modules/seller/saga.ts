@@ -20,9 +20,12 @@ import {
   deleteSeller,
   deleteSellerSuccess,
   deleteSellerFailure,
+  loadSellersSelection,
+  loadSellersSelectionSuccess,
+  loadSellersSelectionFailure,
 } from '@app/store/modules/seller/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
-import { ISeller } from '@app/store/modules/seller/reducer'
+import { ISeller, ISellerSelection } from '@app/store/modules/seller/reducer'
 
 function* loadSellersTask(action: ReturnType<typeof loadSellers>) {
   try {
@@ -127,10 +130,29 @@ function* deleteSellerTask(action: ReturnType<typeof deleteSeller>) {
   }
 }
 
+function* loadSellersSelectionTask(action: ReturnType<typeof loadSellersSelection>) {
+  try {
+    const config = yield select(getAuthorizationHeader)
+
+    const data: Array<ISellerSelection> = yield axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/seller/loadSellerSelection`, config)
+      .then(res => res.data)
+      .catch(error => {
+        throw error.response.data
+      })
+
+    yield put(loadSellersSelectionSuccess(data))
+  } catch (error) {
+    yield put(setSellerModuleError('loadSellersSelection', error))
+    yield put(loadSellersSelectionFailure(error))
+  }
+}
+
 export default [
   takeLeading(actionTypes.LOAD_SELLERS, loadSellersTask),
   takeLeading(actionTypes.CREATE_SELLER, createSellerTask),
   takeLeading(actionTypes.GET_SELLER, getSellerTask),
   takeLeading(actionTypes.UPDATE_SELLER, updateSellerTask),
   takeLeading(actionTypes.DELETE_SELLER, deleteSellerTask),
+  takeLeading(actionTypes.LOAD_SELLERS_SELECTION, loadSellersSelectionTask),
 ]

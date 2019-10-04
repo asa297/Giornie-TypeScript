@@ -1,6 +1,7 @@
 import { fromJS } from 'immutable'
+import * as R from 'ramda'
 
-import { IGroupState } from '@app/store/modules/group/reducer'
+import { IGroupState, IGroupSelection } from '@app/store/modules/group/reducer'
 import { MODULE_NAME } from '@app/store/modules/group/type'
 import { get } from '@app/store/modules/helpers/ramda'
 
@@ -11,3 +12,22 @@ export const getGroupErrorText = (errorKey: string) => get<IGroupState['error']>
 
 export const getGroupList = get<IGroupState['data']['list']>(`data.list`)
 export const getGroupListById = (docId: string) => get<IGroupState['data']['list']['']>(`data.list.${docId}`)
+export const getGroupSelectionList = get<IGroupState['data']['list_selection']>(`data.list_selection`)
+export const getGroupOption = state => {
+  const groupSelectionList = getGroupSelectionList(state)
+  const groupOption = R.compose(
+    R.map((v: IGroupSelection) => {
+      return {
+        id: v._id,
+        label: `${v.group_code} (${v.guide_name})`,
+        value: {
+          id: v._id,
+          label: `${v.group_code} (${v.guide_name})`,
+        },
+      }
+    }),
+    R.values,
+  )(groupSelectionList)
+
+  return groupOption
+}

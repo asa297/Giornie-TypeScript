@@ -20,9 +20,12 @@ import {
   updateGroupFailure,
   deleteGroupSuccess,
   deleteGroupFailure,
+  loadGroupsSelection,
+  loadGroupsSelectionSuccess,
+  loadGroupsSelectionFailure,
 } from '@app/store/modules/group/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
-import { IGroupState } from '@app/store/modules/group/reducer'
+import { IGroupState, IGroupSelection } from '@app/store/modules/group/reducer'
 
 function* loadGroupsTask(action: ReturnType<typeof loadGroups>) {
   try {
@@ -124,10 +127,29 @@ function* deleteGroupTask(action: ReturnType<typeof deleteGroup>) {
   }
 }
 
+function* loadGroupsSelectionTask(action: ReturnType<typeof loadGroupsSelection>) {
+  try {
+    const config = yield select(getAuthorizationHeader)
+
+    const data: Array<IGroupSelection> = yield axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/group/loadGroupSelection`, config)
+      .then(res => res.data)
+      .catch(error => {
+        throw error.response.data
+      })
+
+    yield put(loadGroupsSelectionSuccess(data))
+  } catch (error) {
+    yield put(setGroupModuleError('loadGroupsSelection', error))
+    yield put(loadGroupsSelectionFailure(error))
+  }
+}
+
 export default [
   takeLeading(actionTypes.LOAD_GROUPS, loadGroupsTask),
   takeLeading(actionTypes.CREATE_GROUP, createGroupTask),
   takeLeading(actionTypes.GET_GROUP, getGroupTask),
   takeLeading(actionTypes.UPDATE_GROUP, updateGroupTask),
   takeLeading(actionTypes.DELETE_GROUP, deleteGroupTask),
+  takeLeading(actionTypes.LOAD_GROUPS_SELECTION, loadGroupsSelectionTask),
 ]

@@ -36,7 +36,7 @@ export const checkFileSize = (file: File, fileSize: number): boolean => {
   return file.size <= fileSize
 }
 
-export const getBase64Image = (file: File): Promise<String> => {
+export const getBase64Image = (file: File): Promise<string> => {
   return new Promise((reslove, reject) => {
     const reader = new FileReader()
     reader.readAsDataURL(file)

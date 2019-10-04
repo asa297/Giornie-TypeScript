@@ -1,7 +1,7 @@
 import { WAIT_FOR_ACTION, ERROR_ACTION } from 'redux-wait-for-action'
 
 import { actionTypes } from '@app/store/modules/seller/type'
-import { ISeller } from '@app/store/modules/seller/reducer'
+import { ISeller, ISellerSelection } from '@app/store/modules/seller/reducer'
 import { SellerFormBody } from '@app/helpers/form-types/seller-form-type'
 
 export const loadSellers = () => ({
@@ -93,6 +93,24 @@ export const deleteSellerSuccess = () => ({
 
 export const deleteSellerFailure = (error: any) => ({
   type: actionTypes.DELETE_SELLER_FAILURE,
+  error,
+})
+
+export const loadSellersSelection = () => ({
+  type: actionTypes.LOAD_SELLERS_SELECTION,
+  [WAIT_FOR_ACTION]: actionTypes.LOAD_SELLERS_SELECTION_SUCCESS,
+  [ERROR_ACTION]: actionTypes.LOAD_SELLERS_SELECTION_FAILURE,
+})
+
+export const loadSellersSelectionSuccess = (orgData: Array<ISellerSelection>) => ({
+  type: actionTypes.LOAD_SELLERS_SELECTION_SUCCESS,
+  payload: {
+    orgData,
+  },
+})
+
+export const loadSellersSelectionFailure = (error: any) => ({
+  type: actionTypes.LOAD_SELLERS_SELECTION_FAILURE,
   error,
 })
 

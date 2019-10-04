@@ -11,10 +11,13 @@ import SellerFormPage from '@app/page/seller-form'
 import SellerListPage from '@app/page/seller-list'
 import ItemFormPage from '@app/page/item-form'
 import ItemListPage from '@app/page/item-list'
+import POPage from '@app/page/po'
 
 const Routing: React.SFC<any> = () => {
   return (
     <Switch>
+      <Route exact path="/po" component={POPage} />
+
       <Route exact path="/item/form/:id" component={ItemFormPage} />
       <Route exact path="/item/form" component={ItemFormPage} />
       <Route exact path="/item" component={ItemListPage} />
