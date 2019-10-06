@@ -1,12 +1,24 @@
 import React from 'react'
-import { Input as AntdInput } from 'antd'
+import { Input as AntdInput, Icon } from 'antd'
 import styled from 'styled-components'
 import { InputProps } from 'antd/lib/input'
+import { SearchProps } from 'antd/lib/input/Search'
 
 const Search = AntdInput.Search
 
-export const SearchInput: React.SFC<InputProps> = props => {
-  return <Input {...props} />
+interface SearchInputIProps {
+  searching?: boolean
+  errorText?: string
+}
+
+export const SearchInput: React.SFC<InputProps & SearchProps & SearchInputIProps> = props => {
+  return (
+    <React.Fragment>
+      <Input {...props} />
+      {props.searching && <Icon type="loading" style={{ fontSize: '20px' }} />}
+      {props.errorText && <ErrorText>{props.errorText}</ErrorText>}
+    </React.Fragment>
+  )
 }
 
 const Input = styled(Search)`
@@ -19,4 +31,9 @@ const Input = styled(Search)`
   i > * {
     font-size: 20px;
   }
+`
+
+const ErrorText = styled.div`
+  color: red;
+  font-size: 20px;
 `

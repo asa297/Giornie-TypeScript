@@ -3,6 +3,7 @@ import { fromJS } from 'immutable'
 import { actionTypes } from '@app/store/modules/item/type'
 
 export interface IItem {
+  _id: string
   item_type: {
     item_type_id: number
     item_type_name: string
@@ -13,13 +14,16 @@ export interface IItem {
   item_color?: string
   item_skin?: string
   item_price: number
-  item_qty_HO?: number
-  item_qty_Shop1?: number
+  item_qty_HO: number
+  item_qty_Shop1: number
   item_remark: string
-  item_image_key: string
   item_image_url: string
 
   last_modify_date: Date
+}
+
+export interface IPurchaseOrderItem extends IItem {
+  qualtity?: number
 }
 
 export interface IItemState {
@@ -33,6 +37,9 @@ export interface IItemState {
     list: {
       [id: string]: IItem
     }
+    purchaseOrderItems: {
+      [id: string]: IPurchaseOrderItem
+    }
   }
 }
 
@@ -41,6 +48,7 @@ const initState: IItemState = {
   isLoading: false,
   data: {
     list: {},
+    purchaseOrderItems: {},
   },
 }
 
@@ -48,7 +56,8 @@ export default (state = fromJS(initState), action) => {
   switch (action.type) {
     case actionTypes.LOAD_ITEMS:
       return state.setIn(['data', 'list'], fromJS({}))
-
+    case actionTypes.CLEAR_PO_ITEMS:
+      return state.setIn(['data', 'purchaseOrderItems'], fromJS({}))
     case actionTypes.LOAD_ITEMS_SUCCESS:
     case actionTypes.GET_ITEM_SUCCESS:
       return state.updateIn(['data', 'list'], list => {
@@ -61,7 +70,15 @@ export default (state = fromJS(initState), action) => {
 
         return fromJS(_list)
       })
+    case actionTypes.SEARCH_ITEM_SUCCESS:
+      return state.updateIn(['data', 'purchaseOrderItems'], list => {
+        const _list = list.toJS()
+        const { item } = action.payload
 
+        _list[item._id] = item
+
+        return fromJS(_list)
+      })
     case actionTypes.IS_LOADING:
       return state.setIn(['isLoading'], fromJS(action.payload.isLoading))
     case actionTypes.SET_ITEM_MODULE_ERROR:

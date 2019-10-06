@@ -165,7 +165,7 @@ class ItemPage extends React.Component<ItemFormPageProps & RouteComponentProps<M
                     {isEditMode && this.props.userRole !== UserRoleEnum.STAFF && (
                       <DeleteActionForm title="ยืนยันการลบรายการนี้" loading={this.state.isDeleting} onConfirm={() => this.handleDelete()} />
                     )}
-                    {this.props.userRole !== UserRoleEnum.STAFF && <SubmitActionForm loading={this.props.isSummiting} />}
+                    {this.props.userRole === UserRoleEnum.ADMIN && <SubmitActionForm loading={this.props.isSummiting} />}
                   </FormActionContainer>
                 </form>
               )}

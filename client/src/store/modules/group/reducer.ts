@@ -3,6 +3,7 @@ import { fromJS } from 'immutable'
 import { actionTypes } from '@app/store/modules/group/type'
 
 export interface IGroup {
+  _id: string
   group_code: string
   group_sticker_number: string
   group_remark: string

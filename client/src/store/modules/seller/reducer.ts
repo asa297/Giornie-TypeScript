@@ -3,6 +3,7 @@ import { fromJS } from 'immutable'
 import { actionTypes } from '@app/store/modules/seller/type'
 
 export interface ISeller {
+  _id: string
   seller_name: string
   seller_code: string
   seller_com: number

@@ -23,9 +23,6 @@ function* joinSocketTask(action: ReturnType<typeof joinSocket>) {
       },
     })
 
-    // socket.emit('joinroom')
-    // socket.emit('openpo')
-
     yield put(joinSocketSucess(socket))
   } catch (error) {
     yield put(joinSocketFailure(error))

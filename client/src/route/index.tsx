@@ -16,7 +16,7 @@ import POPage from '@app/page/po'
 const Routing: React.SFC<any> = () => {
   return (
     <Switch>
-      <Route exact path="/po" component={POPage} />
+      <Route exact path="/form/po" component={POPage} />
 
       <Route exact path="/item/form/:id" component={ItemFormPage} />
       <Route exact path="/item/form" component={ItemFormPage} />

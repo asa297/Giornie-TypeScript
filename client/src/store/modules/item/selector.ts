@@ -11,3 +11,5 @@ export const getItemErrorText = (errorKey: string) => get<IItemState['error']>(`
 
 export const getItemList = get<IItemState['data']['list']>(`data.list`)
 export const getItemListById = (docId: string) => get<IItemState['data']['list']['']>(`data.list.${docId}`)
+export const getPurchaseOrderItemList = get<IItemState['data']['purchaseOrderItems']>(`data.purchaseOrderItems`)
+export const getPurchaseOrderListById = (docId: string) => get<IItemState['data']['purchaseOrderItems']['']>(`data.purchaseOrderItems.${docId}`)

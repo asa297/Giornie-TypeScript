@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { put, takeLeading, select } from 'redux-saga/effects'
+import * as R from 'ramda'
 
 import { actionTypes } from '@app/store/modules/item/type'
 import {
@@ -20,9 +21,13 @@ import {
   deleteItem,
   deleteItemSuccess,
   deleteItemFailure,
+  searchItem,
+  searchItemSuccess,
+  searchItemFailure,
 } from '@app/store/modules/item/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
-import { IItem } from '@app/store/modules/item/reducer'
+import { IItem, IPurchaseOrderItem } from '@app/store/modules/item/reducer'
+import { getRootItemState, getPurchaseOrderListById } from '@app/store/modules/item/selector'
 
 function* loadItemsTask(action: ReturnType<typeof loadItems>) {
   try {
@@ -157,10 +162,58 @@ function* deleteItemTask(action: ReturnType<typeof deleteItem>) {
   }
 }
 
+function* searchItemTask(action: ReturnType<typeof searchItem>) {
+  try {
+    const { itemCode } = action.payload
+
+    yield put(setItemModuleError('searchItem'))
+
+    const config = yield select(getAuthorizationHeader)
+
+    const data: IItem = yield axios
+      .get(`${process.env.REACT_APP_SERVER_URL}/api/item/searchItemByItemCode/${itemCode}`, config)
+      .then(res => res.data)
+      .catch(error => {
+        throw error.response.data
+      })
+
+    if (data.item_qty_Shop1 === 0) {
+      yield put(setItemModuleError('searchItem', 'จำนวนสินค้าหมด'))
+      throw 'จำนวนสินค้าหมด'
+    } else {
+      let item: IPurchaseOrderItem = yield select(
+        R.compose(
+          getPurchaseOrderListById(data._id),
+          getRootItemState,
+        ),
+      )
+
+      if (item) {
+        if (item.qualtity === data.item_qty_Shop1) {
+          yield put(setItemModuleError('searchItem', 'จำนวนสินค้านี้ในรายการขายเท่ากับจำนวนสินค้านี้ในระบบ'))
+          throw 'จำนวนสินค้านี้ในรายการขายเท่ากับจำนวนสินค้านี้ในระบบ'
+        } else if (item.item_qty_Shop1 > data.item_qty_Shop1) {
+          item.qualtity = data.item_qty_Shop1
+        } else {
+          ++item.qualtity
+        }
+      } else {
+        item = { ...data }
+        item.qualtity = 1
+      }
+      yield put(searchItemSuccess(item))
+    }
+  } catch (error) {
+    yield put(setItemModuleError('searchItem', error))
+    yield put(searchItemFailure(error))
+  }
+}
+
 export default [
   takeLeading(actionTypes.LOAD_ITEMS, loadItemsTask),
   takeLeading(actionTypes.CREATE_ITEM, createItemTask),
   takeLeading(actionTypes.GET_ITEM, getItemTask),
   takeLeading(actionTypes.UPDATE_ITEM, updateItemTask),
   takeLeading(actionTypes.DELETE_ITEM, deleteItemTask),
+  takeLeading(actionTypes.SEARCH_ITEM, searchItemTask),
 ]

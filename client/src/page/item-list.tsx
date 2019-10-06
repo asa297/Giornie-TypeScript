@@ -83,7 +83,7 @@ class ItemListPage extends React.Component<ItemListPageProps & RouteComponentPro
               }
             }}
           />
-          {this.props.userRole !== UserRoleEnum.STAFF && <ButtonNew onClick={() => this.props.history.push('/item/form')} />}
+          {this.props.userRole === UserRoleEnum.ADMIN && <ButtonNew onClick={() => this.props.history.push('/item/form')} />}
         </WithLoading>
       </MainLayout>
     )
