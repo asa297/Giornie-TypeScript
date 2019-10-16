@@ -4,7 +4,7 @@ import { MainLayout } from '@app/components/layout/main-layout'
 
 class HomePage extends React.Component<any> {
   render() {
-    return <MainLayout></MainLayout>
+    return <MainLayout pageName="หน้าหลัก"></MainLayout>
   }
 }
 
