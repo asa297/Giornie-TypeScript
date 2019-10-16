@@ -16,7 +16,7 @@ export const PurchaseOrderSchema = (value: PurchaseOrderFormBody) => {
     errors.discount = FieldIsPercentRange(value.discount)
   }
 
-  const creditValidators = FieldIsMoreThan(value.credit, value.subTotal - value.grandTotalDiscount, 'Credit must less than Subtotal include discount')
+  const creditValidators = FieldIsMoreThan(value.credit, value.subTotal - value.grandTotalDiscount, 'จำนวนชำระเป็นเครดิตต้องน้อยกว่ายอดรวม')
   if (creditValidators) {
     errors.credit = creditValidators
   }
@@ -25,12 +25,12 @@ export const PurchaseOrderSchema = (value: PurchaseOrderFormBody) => {
     errors.creditCharge = FieldIsPercentRange(value.creditCharge)
   }
 
-  const grandTotalDiscountValidators = FieldIsMoreThan(value.grandTotalDiscount, value.subTotal, 'Discount total must less than Subtotal')
+  const grandTotalDiscountValidators = FieldIsMoreThan(value.grandTotalDiscount, value.subTotal, 'จำนวนส่วนลดต้องน้อยกว่าจำนวนยอดรวม')
   if (grandTotalDiscountValidators) {
     errors.grandTotalDiscount = grandTotalDiscountValidators
   }
 
-  const grandTotalCreditValidators = FieldIsMoreThan(value.grandTotalCredit, value.subTotal, 'Credit total must less than Subtotal')
+  const grandTotalCreditValidators = FieldIsMoreThan(value.grandTotalCredit, value.subTotal, 'จำนวนวนเครดิตต้องน้อยกว่าจำนวนยอดรวม')
   if (grandTotalCreditValidators) {
     errors.grandTotalCredit = grandTotalCreditValidators
   }
@@ -41,8 +41,8 @@ export const PurchaseOrderSchema = (value: PurchaseOrderFormBody) => {
 
   if (FieldIsEmpty(value.receiveCash)) {
     errors.receiveCash = FieldIsEmpty(value.receiveCash)
-  } else if (FieldIsLessThan(value.receiveCash, value.grandTotal, 'ReceiveCash total must more than Grandtotal')) {
-    errors.receiveCash = FieldIsLessThan(value.receiveCash, value.grandTotal, 'ReceiveCash total must more than Grandtotal')
+  } else if (FieldIsLessThan(value.receiveCash, value.grandTotal)) {
+    errors.receiveCash = FieldIsLessThan(value.receiveCash, value.grandTotal, 'จำนวนเเงินที่รับต้องมากกว่าจำนวนยอดที่ต้องชำระ')
   }
 
   if (FieldIsPositiveNumber(value.changeCash)) {

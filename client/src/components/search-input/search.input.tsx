@@ -8,7 +8,7 @@ const Search = AntdInput.Search
 
 interface SearchInputIProps {
   searching?: boolean
-  errorText?: string
+  error?: any
 }
 
 export const SearchInput: React.SFC<InputProps & SearchProps & SearchInputIProps> = props => {
@@ -16,7 +16,7 @@ export const SearchInput: React.SFC<InputProps & SearchProps & SearchInputIProps
     <React.Fragment>
       <Input {...props} />
       {props.searching && <Icon type="loading" style={{ fontSize: '20px' }} />}
-      {props.errorText && <ErrorText>{props.errorText}</ErrorText>}
+      {props.error && <ErrorText>{props.error}</ErrorText>}
     </React.Fragment>
   )
 }

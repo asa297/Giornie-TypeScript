@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { put, takeLeading, select } from 'redux-saga/effects'
+import { put, takeLeading, select, takeLatest } from 'redux-saga/effects'
 import * as R from 'ramda'
 
 import { actionTypes } from '@app/store/modules/item/type'
@@ -24,6 +24,9 @@ import {
   searchItem,
   searchItemSuccess,
   searchItemFailure,
+  changeQualtityItem,
+  changeQualtityItemSuccess,
+  changeQualtityItemFailure,
 } from '@app/store/modules/item/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
 import { IItem, IPurchaseOrderItem } from '@app/store/modules/item/reducer'
@@ -209,6 +212,30 @@ function* searchItemTask(action: ReturnType<typeof searchItem>) {
   }
 }
 
+function* changeQualtityItemTask(action: ReturnType<typeof changeQualtityItem>) {
+  try {
+    const { itemId, qualtity } = action.payload
+
+    yield put(setItemModuleError('changeQualtityItem'))
+
+    const item: IPurchaseOrderItem = yield select(
+      R.compose(
+        getPurchaseOrderListById(itemId),
+        getRootItemState,
+      ),
+    )
+
+    if (qualtity > item.item_qty_Shop1) {
+      throw `จำนวนสินค้ารหัส ${item.item_code} ในรายการขายเท่ากับจำนวนสินค้าในระบบ`
+    }
+
+    yield put(changeQualtityItemSuccess(item._id, qualtity))
+  } catch (error) {
+    yield put(setItemModuleError('changeQualtityItem', error))
+    yield put(changeQualtityItemFailure(error))
+  }
+}
+
 export default [
   takeLeading(actionTypes.LOAD_ITEMS, loadItemsTask),
   takeLeading(actionTypes.CREATE_ITEM, createItemTask),
@@ -216,4 +243,5 @@ export default [
   takeLeading(actionTypes.UPDATE_ITEM, updateItemTask),
   takeLeading(actionTypes.DELETE_ITEM, deleteItemTask),
   takeLeading(actionTypes.SEARCH_ITEM, searchItemTask),
+  takeLatest(actionTypes.CHANGE_QUALTITY_ITEM, changeQualtityItemTask),
 ]

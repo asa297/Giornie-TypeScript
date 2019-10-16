@@ -10,7 +10,7 @@ import MenuImage from '@app/assets/icons/menu.png'
 import { logout } from '@app/store/modules/auth/action'
 import { getUserInfo, getRootAuthState } from '@app/store/modules/auth/selector'
 
-import { reportMenu, mainMenu } from './menuContent'
+import { reportMenu, mainMenu } from './menu-content'
 
 interface HeaderPlatformIProps {
   pageName?: string
@@ -56,13 +56,7 @@ const HeaderPlatform: React.SFC<HeaderPlatformIProps> = props => {
           </Tooltip>
         </UserNameContainer>
       </HeaderContainer>
-      <DrawerWrapper
-        visible={visible}
-        onClose={() => setVisible(!visible)}
-        closable={false}
-        placement={'left'}
-        title={titleDrawer}
-      >
+      <DrawerWrapper visible={visible} onClose={() => setVisible(!visible)} closable={false} placement={'left'} title={titleDrawer}>
         <MenuWrapper
           mode="inline"
           onClick={page => {

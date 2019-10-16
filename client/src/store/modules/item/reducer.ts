@@ -79,6 +79,16 @@ export default (state = fromJS(initState), action) => {
 
         return fromJS(_list)
       })
+    case actionTypes.CHANGE_QUALTITY_ITEM_SUCCESS:
+      return state.updateIn(['data', 'purchaseOrderItems'], list => {
+        const _list = list.toJS()
+        const { itemId, qualtity } = action.payload
+
+        if (qualtity === 0) delete _list[itemId]
+        else _list[itemId].qualtity = qualtity
+
+        return fromJS(_list)
+      })
     case actionTypes.IS_LOADING:
       return state.setIn(['isLoading'], fromJS(action.payload.isLoading))
     case actionTypes.SET_ITEM_MODULE_ERROR:

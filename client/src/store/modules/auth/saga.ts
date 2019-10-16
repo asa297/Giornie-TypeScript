@@ -6,15 +6,7 @@ import { push } from 'react-router-redux'
 import axios from 'axios'
 
 import { actionTypes } from '@app/store/modules/auth/type'
-import {
-  login,
-  logout,
-  initialAuth,
-  setInitialAuth,
-  setUserInfo,
-  setAuthModuleError,
-  setIsLoading,
-} from '@app/store/modules/auth/action'
+import { login, logout, initialAuth, setInitialAuth, setUserInfo, setAuthModuleError, setIsLoading } from '@app/store/modules/auth/action'
 import { getAuthorizationHeader } from '@app/store/modules/auth/selector'
 
 function* initialAuthTask(action: ReturnType<typeof initialAuth>) {

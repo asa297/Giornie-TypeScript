@@ -109,6 +109,27 @@ export const clearPOItems = () => ({
   type: actionTypes.CLEAR_PO_ITEMS,
 })
 
+export const changeQualtityItem = (itemId: string, qualtity: number) => ({
+  type: actionTypes.CHANGE_QUALTITY_ITEM,
+  payload: {
+    itemId,
+    qualtity,
+  },
+  [WAIT_FOR_ACTION]: actionTypes.CHANGE_QUALTITY_ITEM_SUCCESS,
+  [ERROR_ACTION]: actionTypes.SEARCH_ITEM_FAILURE,
+})
+export const changeQualtityItemSuccess = (itemId: string, qualtity: number) => ({
+  type: actionTypes.CHANGE_QUALTITY_ITEM_SUCCESS,
+  payload: {
+    itemId,
+    qualtity,
+  },
+})
+export const changeQualtityItemFailure = (error: any) => ({
+  type: actionTypes.CHANGE_QUALTITY_ITEM_FAILURE,
+  error,
+})
+
 export const setIsLoading = (isLoading: boolean) => ({
   type: actionTypes.IS_LOADING,
   payload: { isLoading },
