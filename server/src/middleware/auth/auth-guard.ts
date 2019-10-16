@@ -22,7 +22,7 @@ export const AuthGuard = (req: RequestWithUser, res: Response, next) => {
     .auth()
     .verifyIdToken(token)
     .then(async (user: any) => {
-      user = await UserModel.find().then(model => model.find(value => value.email === 'makejack4@gmail.com'))
+      user = await UserModel.find().then(model => model.find(value => value.email === user.email))
       if (!user) throw new Error('User not found')
       req.user = user
       next()
