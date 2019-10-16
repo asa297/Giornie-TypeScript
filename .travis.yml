@@ -34,6 +34,7 @@ deploy:
     skip_cleanup: true
     token:
       secure: $FIREBASE_TOKEN
+    project: giornie-6e979
     on:
       branch:
         - master
