@@ -34,7 +34,7 @@ module.exports = app => {
 
       const found = await ItemModel.find().then(model => model.find(item => item.item_code === body.item_code))
 
-      if (found) throw 'รหัสสินค้าซํ้า'
+      if (found) throw new Error('รหัสสินค้าซํ้า')
 
       const data: IItemBody = {
         item_type: {
@@ -181,7 +181,7 @@ module.exports = app => {
         },
       ).then(model => model.find(value => value.item_code === itemCode))
 
-      if (!item) res.status(HttpStatus.BAD_REQUEST).send('ไม่พบสินค้า')
+      if (!item) res.status(HttpStatus.BAD_REQUEST).send({ message: 'ไม่พบสินค้า' })
       res.send(item)
     } catch (error) {
       res.status(HttpStatus.BAD_REQUEST).send(error.message)

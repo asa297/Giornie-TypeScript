@@ -181,8 +181,7 @@ function* searchItemTask(action: ReturnType<typeof searchItem>) {
       })
 
     if (data.item_qty_Shop1 === 0) {
-      yield put(setItemModuleError('searchItem', 'จำนวนสินค้าหมด'))
-      throw 'จำนวนสินค้าหมด'
+      throw new Error('จำนวนสินค้าหมด')
     } else {
       let item: IPurchaseOrderItem = yield select(
         R.compose(
@@ -193,8 +192,7 @@ function* searchItemTask(action: ReturnType<typeof searchItem>) {
 
       if (item) {
         if (item.qualtity === data.item_qty_Shop1) {
-          yield put(setItemModuleError('searchItem', 'จำนวนสินค้านี้ในรายการขายเท่ากับจำนวนสินค้านี้ในระบบ'))
-          throw 'จำนวนสินค้านี้ในรายการขายเท่ากับจำนวนสินค้านี้ในระบบ'
+          throw new Error('จำนวนสินค้านี้ในรายการขายเท่ากับจำนวนสินค้านี้ในระบบ')
         } else if (item.item_qty_Shop1 > data.item_qty_Shop1) {
           item.qualtity = data.item_qty_Shop1
         } else {
@@ -207,8 +205,9 @@ function* searchItemTask(action: ReturnType<typeof searchItem>) {
       yield put(searchItemSuccess(item))
     }
   } catch (error) {
-    yield put(setItemModuleError('searchItem', error))
-    yield put(searchItemFailure(error))
+    console.log(error)
+    yield put(setItemModuleError('searchItem', error.message))
+    yield put(searchItemFailure(error.message))
   }
 }
 
@@ -226,13 +225,13 @@ function* changeQualtityItemTask(action: ReturnType<typeof changeQualtityItem>) 
     )
 
     if (qualtity > item.item_qty_Shop1) {
-      throw `จำนวนสินค้ารหัส ${item.item_code} ในรายการขายเท่ากับจำนวนสินค้าในระบบ`
+      throw new Error(`จำนวนสินค้ารหัส ${item.item_code} ในรายการขายเท่ากับจำนวนสินค้าในระบบ`)
     }
 
     yield put(changeQualtityItemSuccess(item._id, qualtity))
   } catch (error) {
-    yield put(setItemModuleError('changeQualtityItem', error))
-    yield put(changeQualtityItemFailure(error))
+    yield put(setItemModuleError('changeQualtityItem', error.message))
+    yield put(changeQualtityItemFailure(error.message))
   }
 }
 
